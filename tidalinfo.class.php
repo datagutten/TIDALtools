@@ -87,17 +87,22 @@ class tidalinfo
 		return $this->parse_response($this->query($url));	
 	}
 
-	function album($id,$tracks=false)
+	function album($album,$tracks=false)
 	{
 		if($tracks)
 			$field='tracks';
 		else
 			$field='';
-
+		$id=$this->get_id($album,'album');
+		if($id===false)
+			return false;
 		return $this->api_request('albums',$id,$field);
 	}
-	function track($id)
+	function track($track)
 	{
+		$id=$this->get_id($track,'track');
+		if($id===false)
+			return false;
 		return $this->api_request('tracks',$id,'');
 	}
 	function playlist($id)
