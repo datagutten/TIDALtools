@@ -68,7 +68,7 @@ class tidalinfo
 	{
 		if(is_numeric($id_or_url))
 			return $id_or_url;
-		elseif(!preg_match(sprintf('#%s/([0-9]+)#',$topic),$url,$id))
+		elseif(!preg_match(sprintf('#%s/([0-9]+)#',$topic),$id_or_url,$id))
 		{
 			$this->error=sprintf('Invalid %s URL',$topic);
 			return false;
