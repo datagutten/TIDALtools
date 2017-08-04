@@ -78,7 +78,7 @@ class tidalinfo
 	}
 	function api_request($topic,$id,$field='',$url_extra='')
 	{
-		//Topic can be: albums, tracks, playlists
+		//Topic can be: albums, tracks, playlists, artists
 		//Field can be: tracks, contributors or empty
 
 		//Can use sessionId or token
