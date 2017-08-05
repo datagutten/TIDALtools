@@ -116,14 +116,15 @@ class tidalinfo
 	}
 	function album_isrc($album)
 	{
-		$album_id=$this->get_id($album,'album');
-		if($album_id===false)
-			return false;
-		$albuminfo=$this->album($album_id,true);
+		$albuminfo=$this->album($album,true);
 		if($albuminfo===false)
 			return false;
-		$tracks=array_column($albuminfo['items'],'trackNumber');
-		$isrc=array_column($albuminfo['items'],'isrc');
-		return array_combine($tracks,$isrc);
+		$isrc_list=array();
+		foreach($albuminfo['items'] as $track)
+		{
+			$track_number=$track['volumeNumber'].'-'.$track['trackNumber'];
+			$isrc_list[$track_number]=$track['isrc'];
+		}
+		return $isrc_list;
 	}
 }
