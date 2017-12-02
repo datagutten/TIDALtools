@@ -51,6 +51,14 @@ class tidalinfo
 		else
 			return $info;
 	}
+	function image($albuminfo)
+	{
+		if(isset($albuminfo['cover']))
+			$albuminfo['cover']='http://resources.wimpmusic.com/images/'.str_replace('-','/',$albuminfo['cover']).'/640x640.jpg';
+		elseif(isset($albuminfo['image']))
+			$albuminfo['image']='http://resources.wimpmusic.com/images/'.str_replace('-','/',$albuminfo['image']).'/640x428.jpg';
+		return $albuminfo;
+	}
 	function get_token()
 	{
 		if(!is_resource($this->ch))
