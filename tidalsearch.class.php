@@ -2,10 +2,6 @@
 require_once 'TIDALtools/tidalinfo.class.php';
 class tidalsearch extends tidalinfo
 {
-	function __construct()
-	{
-		parent::init_curl();
-	}
 	//Remove featured artists from title
 	function clean_title($title)
 	{
