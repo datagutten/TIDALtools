@@ -81,7 +81,7 @@ class tidalinfo
      * @return string Token
      * @throws Exception
      */
-    function get_token($url)
+    function get_token($url='https://tidal.com/browse/')
     {
         echo "Get token from $url\n";
         $response=Requests::Get($url);
