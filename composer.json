@@ -1,5 +1,5 @@
 {
-  "name": "datagutten/TIDAL-tools",
+  "name": "datagutten/tidal-tools",
   "description": "Tools for fetching info from TIDAL",
   "require": {
     "php": ">=5.3",
