@@ -1,0 +1,8 @@
+{
+  "name": "datagutten/TIDAL-tools",
+  "description": "Tools for fetching info from TIDAL",
+  "require": {
+    "php": ">=5.3",
+    "ext-curl": "*"
+  }
+}
