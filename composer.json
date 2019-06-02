@@ -1,6 +1,7 @@
 {
   "name": "datagutten/tidal-tools",
   "description": "Tools for fetching info from TIDAL",
+  "license": "GPL-3.0-or-later",
   "require": {
     "php": ">=5.3",
     "ext-curl": "*"
