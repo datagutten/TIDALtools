@@ -4,6 +4,7 @@
   "license": "GPL-3.0-or-later",
   "require": {
     "php": ">=5.3",
-    "ext-curl": "*"
+    "ext-json": "*",
+    "rmccue/requests": ">=1.0"
   }
 }

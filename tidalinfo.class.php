@@ -1,4 +1,6 @@
 <?Php
+require 'vendor/autoload.php';
+require 'TidalError.php';
 class tidalinfo
 {
 	public $token;
@@ -8,15 +10,10 @@ class tidalinfo
     /**
      * Init cURL
      * @throws Exception
+     * @deprecated
      */
 	function init_curl()
 	{
-		$this->ch=curl_init();
-		curl_setopt($this->ch,CURLOPT_RETURNTRANSFER,true);
-		curl_setopt($this->ch,CURLOPT_USERAGENT,'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.0');
-		curl_setopt($this->ch,CURLOPT_FOLLOWLOCATION,true);
-		curl_setopt($this->ch,CURLOPT_ENCODING,'gzip');
-		curl_setopt($this->ch,CURLOPT_HTTPHEADER,array('X-Tidal-Token: '.$this->get_token()));
 	}
 
     /**
@@ -28,27 +25,28 @@ class tidalinfo
      */
 	function query($url,$postfields=false)
 	{
-		if(!is_resource($this->ch))
-			$this->init_curl();
-		if(empty($url))
-			throw new Exception('Missing URL');
+        if(empty($url))
+            throw new InvalidArgumentException('Missing URL');
+
+        $headers = array(
+            'X-Tidal-Token'=> $this->token,
+            'Accept' => 'application/json, text/plain, */*'
+            );
+        $options = array('useragent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:67.0) Gecko/20100101 Firefox/67.0');
+
 		if($postfields===false)
-			curl_setopt($this->ch,CURLOPT_HTTPGET,true);
+            $response = Requests::get($url, $headers, $options);
 		else
-			curl_setopt($this->ch,CURLOPT_POSTFIELDS,http_build_query($postfields));
-		curl_setopt($this->ch,CURLOPT_URL,$url);
-		$data=curl_exec($this->ch);
-		if($data===false)
-			throw new Exception('cURL error: '.curl_error($this->ch));
-		else
-			return $data;
+			$response = Requests::post($url, $headers, $postfields, $options);
+
+		return $response->body;
 	}
 
     /**
      * Parse the response from TIDAL
      * @param string $data JSON string with data from TIDAL
      * @return array Parsed JSON data
-     * @throws Exception
+     * @throws TidalError
      */
 	function parse_response($data)
 	{
@@ -58,7 +56,7 @@ class tidalinfo
 		$info = $this->image($info);
 
 		if(isset($info['userMessage']))
-            throw new Exception($info['userMessage']);
+            throw new TidalError($info['userMessage']);
 		else
 			return $info;
 	}
@@ -79,19 +77,20 @@ class tidalinfo
 
     /**
      * Get token
+     * @param string $url
      * @return string Token
      * @throws Exception
      */
-	function get_token()
-	{
-		if(!is_resource($this->ch))
-			$this->init_curl();
-		$data=$this->query('http://tidal.com/scripts/scripts.28290a4f.js');
-		preg_match('/this.token="(.+)"/U',$data,$token);
-		if(empty($token[1]))
-			throw new Exception('Unable to get token');
-		return $token[1];
-	}
+    function get_token($url)
+    {
+        echo "Get token from $url\n";
+        $response=Requests::Get($url);
+        //var_dump($response->body);
+        preg_match('/api\.tidalhifi\.com.+token=([a-zA-Z0-9]+)/', $response->body,$token);
+        if(empty($token[1]))
+            throw new Exception('Unable to get token');
+        return $token[1];
+    }
 
     /**
      * Get id from URL
@@ -124,6 +123,11 @@ class tidalinfo
 		//Field can be: tracks, contributors or empty
 
 		//Can use sessionId or token
+        if(empty($this->token))
+        {
+            $web_url = sprintf('https://tidal.com/%s/%s', rtrim($topic, 's'), $id);
+            $this->token = $this->get_token($web_url);
+        }
 
 		$url=sprintf('http://api.tidalhifi.com/v1/%s/%s/%s?countryCode=%s%s',$topic,$id,$field,$this->countryCode,$url_extra);
 		return $this->parse_response($this->query($url));	
