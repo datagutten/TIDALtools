@@ -2,7 +2,14 @@
 require 'vendor/autoload.php';
 class TidalInfo
 {
+    /**
+     * @var string Token sent in header X-Tidal-Token
+     */
 	public $token;
+    /**
+     * @var string SessionId sent in header X-Tidal-SessionId
+     */
+    public $sessionId;
 	public $countryCode='NO';
 	public $ch;
 
@@ -18,8 +25,9 @@ class TidalInfo
     /**
      * Query TIDAL
      * @param $url
-     * @param bool $postfields
-     * @return bool|string
+     * @param array $post_data POST data
+     * @param array $headers Extra HTTP headers
+     * @return string
      * @throws Exception
      */
 	function query($url,$postfields=false)
