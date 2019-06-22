@@ -30,7 +30,7 @@ class TidalInfo
      * @return string
      * @throws Exception
      */
-	function query($url,$postfields=false)
+	function query($url, $post_data=null, $headers=null)
 	{
         if(empty($url))
             throw new InvalidArgumentException('Missing URL');
@@ -42,10 +42,10 @@ class TidalInfo
         //$options = array('useragent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:67.0) Gecko/20100101 Firefox/67.0');
         $options['useragent'] = 'TIDAL/1968 CFNetwork/978.0.7 Darwin/18.5.0';
 
-		if($postfields===false)
+		if(empty($post_data))
             $response = Requests::get($url, $headers, $options);
 		else
-			$response = Requests::post($url, $headers, $postfields, $options);
+			$response = Requests::post($url, $headers, $post_data, $options);
 
 		return $response->body;
 	}
