@@ -1,7 +1,6 @@
 <?Php
 require 'vendor/autoload.php';
-require 'TidalError.php';
-class tidalinfo
+class TidalInfo
 {
 	public $token;
 	public $countryCode='NO';
