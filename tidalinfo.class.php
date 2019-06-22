@@ -34,12 +34,13 @@ class TidalInfo
 	{
         if(empty($url))
             throw new InvalidArgumentException('Missing URL');
+        if(!empty($this->token))
+            $headers['X-Tidal-Token'] = $this->token;
+        if(!empty($this->sessionId))
+            $headers['X-Tidal-SessionId'] = $this->sessionId;
 
-        $headers = array(
-            'X-Tidal-Token'=> $this->token,
-            'Accept' => 'application/json, text/plain, */*'
-            );
-        $options = array('useragent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:67.0) Gecko/20100101 Firefox/67.0');
+        //$options = array('useragent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:67.0) Gecko/20100101 Firefox/67.0');
+        $options['useragent'] = 'TIDAL/1968 CFNetwork/978.0.7 Darwin/18.5.0';
 
 		if($postfields===false)
             $response = Requests::get($url, $headers, $options);
@@ -136,8 +137,14 @@ class TidalInfo
             $this->token = $this->get_token($web_url);
         }
 
-		$url=sprintf('http://api.tidalhifi.com/v1/%s/%s/%s?countryCode=%s%s',$topic,$id,$field,$this->countryCode,$url_extra);
-		return $this->parse_response($this->query($url));	
+        $headers = array(
+            'Accept' => '*/*',
+            'Accept-Encoding' => 'br, gzip, deflate',
+            'Accept-Language' => 'en-us',
+            'Connection' => 'keep-alive');
+
+		$url=sprintf('https://api.tidal.com/v1/%s/%s/%s?countryCode=%s%s',$topic,$id,$field,$this->countryCode,$url_extra);
+		return $this->parse_response($this->query($url, null, $headers));
 	}
 
     /**
