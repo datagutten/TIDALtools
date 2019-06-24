@@ -28,7 +28,6 @@ class TidalInfo
      * @param array $post_data POST data
      * @param array $headers Extra HTTP headers
      * @return string
-     * @throws Exception
      */
 	function query($url, $post_data=null, $headers=null)
 	{
@@ -54,7 +53,7 @@ class TidalInfo
      * Parse the response from TIDAL
      * @param string $data JSON string with data from TIDAL
      * @return array Parsed JSON data
-     * @throws TidalError
+     * @throws TidalError Error message from TIDAL
      */
 	function parse_response($data)
 	{
@@ -87,7 +86,7 @@ class TidalInfo
      * Get token
      * @param string $url
      * @return string Token
-     * @throws Exception
+     * @throws TidalError Token not found in response string
      */
     function get_token($url='https://tidal.com/browse/')
     {
@@ -96,7 +95,7 @@ class TidalInfo
         //var_dump($response->body);
         preg_match('/api\.tidalhifi\.com.+token=([a-zA-Z0-9]+)/', $response->body,$token);
         if(empty($token[1]))
-            throw new Exception('Unable to get token');
+            throw new TidalError('Token not found in response string');
         return $token[1];
     }
 
@@ -123,7 +122,7 @@ class TidalInfo
      * @param string $field
      * @param string $url_extra
      * @return array Response from TIDAL
-     * @throws Exception
+     * @throws TidalError TIDAL returned error or unable to get token
      */
 	function api_request($topic,$id,$field='',$url_extra='')
 	{
@@ -152,7 +151,7 @@ class TidalInfo
      * @param string $album Album ID or URL
      * @param bool $tracks Get album tracks
      * @return array
-     * @throws Exception
+     * @throws TidalError API request failed
      */
 	function album($album,$tracks=false)
 	{
@@ -168,7 +167,7 @@ class TidalInfo
      * Get information about a track
      * @param string $track Track ID or URL
      * @return array
-     * @throws Exception
+     * @throws TidalError API request failed
      */
 	function track($track)
 	{
@@ -180,7 +179,7 @@ class TidalInfo
      * Get information about a playlist
      * @param $id
      * @return array
-     * @throws Exception
+     * @throws TidalError API request failed
      */
 	function playlist($id)
 	{
@@ -194,7 +193,7 @@ class TidalInfo
      * Get ISRCs for the tracks on an album
      * @param $album
      * @return array
-     * @throws Exception
+     * @throws TidalError API request failed
      */
 	function album_isrc($album)
 	{
