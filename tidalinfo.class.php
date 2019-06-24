@@ -74,7 +74,7 @@ class TidalInfo
      * @param array $info
      * @return array
      */
-	function image($info)
+	public static function image($info)
 	{
 		if(isset($info['cover']))
 			$info['cover']='http://resources.wimpmusic.com/images/'.str_replace('-','/',$info['cover']).'/640x640.jpg';
@@ -106,7 +106,7 @@ class TidalInfo
      * @param string $topic
      * @return string id
      */
-	function get_id($id_or_url,$topic='')
+	public static function get_id($id_or_url,$topic='')
 	{
 		if(is_numeric($id_or_url))
 			return $id_or_url;
