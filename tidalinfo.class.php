@@ -109,7 +109,7 @@ class TidalInfo
 		if(is_numeric($id_or_url))
 			return $id_or_url;
 		elseif(!preg_match(sprintf('#%s/([0-9]+)#',$topic),$id_or_url,$id))
-			throw new InvalidArgumentException('Invalid %s URL: %s', $topic, $id_or_url);
+			throw new InvalidArgumentException(sprintf('Invalid %s URL: %s', $topic, $id_or_url));
 		else
 			return $id[1];
 	}
