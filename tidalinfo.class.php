@@ -10,6 +10,11 @@ class TidalInfo
      * @var string SessionId sent in header X-Tidal-SessionId
      */
     public $sessionId;
+    /**
+     * @var string User-agent
+     */
+    public $useragent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36';
+
 	public $countryCode='NO';
 	public $ch;
 
@@ -38,8 +43,7 @@ class TidalInfo
         if(!empty($this->sessionId))
             $headers['X-Tidal-SessionId'] = $this->sessionId;
 
-        //$options = array('useragent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:67.0) Gecko/20100101 Firefox/67.0');
-        $options['useragent'] = 'TIDAL/1968 CFNetwork/978.0.7 Darwin/18.5.0';
+        $options['useragent'] = $this->useragent;
 
 		if(empty($post_data))
             $response = Requests::get($url, $headers, $options);
