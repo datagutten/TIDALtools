@@ -32,9 +32,10 @@ class TidalInfo
      * @param $url
      * @param array $post_data POST data
      * @param array $headers Extra HTTP headers
+     * @param array $options Options for Requests
      * @return string
      */
-	function query($url, $post_data=null, $headers=null)
+	function query($url, $post_data=array(), $headers=array(), $options = array())
 	{
         if(empty($url))
             throw new InvalidArgumentException('Missing URL');
