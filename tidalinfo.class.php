@@ -122,7 +122,7 @@ class TidalInfo
      * Send request to the TIDAL API
      * @param string $topic Valid values: albums, tracks, playlists, artists
      * @param string $id ID of the object to get
-     * @param string $field Valid values: tracks, contributors or empty
+     * @param string $field Valid values: tracks, contributors, albums or empty
      * @param string $url_extra Value is appended to URL
      * @return array Response from TIDAL
      * @throws TidalError TIDAL returned error or unable to get token
@@ -188,6 +188,32 @@ class TidalInfo
  		$playlist_tracks=$this->api_request('playlists',$id,'tracks',"&limit=$limit&orderDirection=ASC");
 		return array_merge($playlist_info,$playlist_tracks);
 	}
+
+    /**
+     * Get artist info
+     * @param string $artist Artist ID or URL
+     * @return array Artist info
+     * @throws TidalError
+     */
+	function artist($artist)
+    {
+        $id = self::get_id($artist);
+        $url = sprintf('https://api.tidal.com/v1/pages/artist?countryCode=%s&locale=en_NO&deviceType=PHONE&artistId=%s',
+            $this->countryCode, $id);
+        return $this->parse_response($this->query($url));
+    }
+
+    /**
+     * Get artist albums
+     * @param string $artist Artist ID or URL
+     * @return array Artist albums
+     * @throws TidalError
+     */
+    function artist_albums($artist)
+    {
+        $artist = self::get_id($artist);
+        return $this->api_request('artists', $artist, 'albums');
+    }
 
     /**
      * Get ISRCs for the tracks on an album
