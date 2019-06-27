@@ -1,39 +1,98 @@
 <?php
-require_once 'TIDALtools/tidalinfo.class.php';
-class tidalsearch extends tidalinfo
+class TidalSearch extends TidalInfo
 {
-	//Remove featured artists from title
-	function clean_title($title)
+    /**
+     * @var bool Show debug output
+     */
+    public $debug = false;
+
+    /**
+     * Remove featured artists from title
+     * @param string $title "Kem Kan Eg Ringe (feat. Store P & Lars Vaular)"
+     * @return string "Kem Kan Eg Ringe"
+     */
+	public static function remove_featured($title)
 	{
-		return preg_replace('/(.+) \(?feat.+/','$1',$title,-1,$count); //Search with plain title
+        $title=preg_replace('/(.+) \(?feat.+/i','$1', $title);
+        $title=preg_replace('/(.+) \(?with.+/i','$1',$title);
+        return $title;
 	}
-	function clean_artist($artist)
+
+    /**
+     * @param string $search Search string
+     * @param int $limit Limit for first query
+     * @return array Search results
+     * @throws TidalError
+     */
+	function search_track($search, $limit = 60)
 	{
-		$artist_plain=preg_replace('/(.+) feat.+/','$1',$artist,-1,$count);
-		//var_dump($artist_plain);
-		$artist_plain=preg_replace('/(.+?) &.+/','$1',$artist_plain,-1,$count);
-		return $artist_plain;
+        $matches=$this->api_request('search','tracks','',sprintf('&limit=%d&query=%s',$limit ,urlencode($search)));
+        if($matches['totalNumberOfItems']>60)
+        {
+            $matches=$this->api_request('search','tracks','',sprintf('&limit=%d&query=%s',$matches['totalNumberOfItems'],urlencode($search)));
+        }
+        return $matches;
 	}
-	function search_track($search)
-	{
-		return $this->api_request('search','tracks','','&limit=20&query='.urlencode($search));
-	}
+
+    /**
+     * @param $search
+     * @return array
+     * @throws TidalError
+     */
 	function search_album($search)
 	{
 		return $this->api_request('search','albums','','&limit=20&query='.urlencode($search));
 	}
-	
-	function verify_artist($search_result,$wanted_artist)
-	{
-		$wanted_artist=str_replace(', ',"\n",$wanted_artist); //Separate artists by line break instead of comma
-		foreach($matches['items'] as $item)
-		{
-			//print_r($item);
-			$artists=implode("\n",array_column($item['artists'],'name')); //Create a string from the search result artist array
-			if(mb_stripos($artists,$wanted_artist)!==false) //Current search result has the wanted artist
-			{
-				return $item;
-			}
-		}
-	}
+
+    /**
+     * Try to find the correct search result
+     * @param array $match Return value from search_track()
+     * @param string $title Requested title
+     * @param array $artists Requested artists
+     * @param string $requested_artists_string Requested artists as string
+     * @return bool|array Return false if track is not found, else return value of argument $match
+     */
+	function verify_search($match, $title, $artists, $requested_artists_string=null)
+    {
+        //A remix is not a match if the original track is requested
+        if((stripos($title,'remix')===false) !== (stripos($match['title'],'remix')===false))
+            return false;
+
+        $tidal_artists_string=implode("\n",array_column($match['artists'],'name')); //Create a string from the search result artist array
+
+        if(empty($requested_artists_string))
+            $requested_artists_string = implode("\n",$artists); //Create a string from the VG artist array
+
+
+        $tidal_artists_lower = array_map('strtolower', array_column($match['artists'],'name'));
+        $requested_artists_lower = array_map('strtolower', $artists);
+
+        $diff = array_diff($tidal_artists_lower, $requested_artists_lower);
+
+        if(empty($diff))
+        {
+            if($this->debug)
+                echo "Matched by array_diff\n";
+            return $match;
+        }
+        //Check if the missing artist matches partially
+        elseif(count($diff)===1 && mb_stripos($requested_artists_string, array_pop($diff))!==false)
+        {
+            if($this->debug)
+                echo "Matched by stripos single diff\n";
+            return $match;
+        }
+        elseif(mb_stripos($tidal_artists_string,$requested_artists_string)!==false)
+        {
+            return $match;
+        }
+        elseif(levenshtein($tidal_artists_string,$requested_artists_string)<=2)
+        {
+            if($this->debug)
+                echo "Matched by levenshtein distance\n";
+            return $match;
+        }
+        else
+            return false;
+    }
 }
