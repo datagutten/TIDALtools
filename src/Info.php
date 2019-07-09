@@ -1,6 +1,12 @@
 <?Php
-require 'vendor/autoload.php';
-class TidalInfo
+
+
+namespace datagutten\Tidal;
+use InvalidArgumentException;
+use Requests;
+
+
+class Info
 {
     /**
      * @var string Token sent in header X-Tidal-Token
@@ -18,14 +24,6 @@ class TidalInfo
 	public $countryCode='NO';
 	public $ch;
 
-    /**
-     * Init cURL
-     * @throws Exception
-     * @deprecated
-     */
-	function init_curl()
-	{
-	}
 
     /**
      * Query TIDAL
@@ -93,7 +91,7 @@ class TidalInfo
      * @return string Token
      * @throws TidalError Token not found in response string
      */
-    function get_token($url='https://tidal.com/browse/')
+    public static function get_token($url='https://tidal.com/browse/')
     {
         echo "Get token from $url\n";
         $response=Requests::Get($url);

@@ -1,5 +1,10 @@
 <?php
-class TidalSearch extends TidalInfo
+
+
+namespace datagutten\Tidal;
+
+
+class Search extends Info
 {
     /**
      * @var bool Show debug output
@@ -54,6 +59,7 @@ class TidalSearch extends TidalInfo
      */
 	function verify_search($match, $title, $artists, $requested_artists_string=null)
     {
+        //TODO: Verify argument array
         //A remix is not a match if the original track is requested
         if((stripos($title,'remix')===false) !== (stripos($match['title'],'remix')===false))
             return false;

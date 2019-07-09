@@ -5,13 +5,12 @@
   "require": {
     "php": ">=5.3",
     "ext-json": "*",
-    "rmccue/requests": "^1.0"
+    "rmccue/requests": "^1.0",
+    "ext-mbstring": "*"
   },
   "autoload": {
-    "classmap": [
-      "tidalinfo.class.php",
-      "tidalsearch.class.php",
-      "TidalError.php"
-    ]
+    "psr-4": {
+      "datagutten\\tidal\\": "src"
+    }
   }
 }
