@@ -114,4 +114,38 @@ class Search extends Info
         else
             return false;
     }
+
+    /**
+     * @param array $results Return from search_track()
+     * @param string $title Expected title
+     * @param array $artists Expected artists
+     * @param string $requested_artists_string Expected artists as string
+     * @return array|bool Return array with track info if found, else return false
+     */
+    function find_search_result($results, $title, $artists, $requested_artists_string = null)
+    {
+        if(!isset($results['items']))
+            throw new InvalidArgumentException('Invalid search results');
+
+        foreach ($results['items'] as $result)
+        {
+            $result = $this->verify_search($result, $title, $artists, $requested_artists_string);
+            if($result!==false)
+                return $result;
+        }
+        return false;
+    }
+
+    /**
+     * @param string $title Title to search
+     * @param array $artists Expected artists
+     * @param string $requested_artists_string Expected artists as string
+     * @throws TidalError
+     * @return array|bool Return array with track info if found, else return false
+     */
+    function search_track_verify($title, $artists, $requested_artists_string = null)
+    {
+        $search = $this->search_track($title);
+        return $this->find_search_result($search, $title, $artists, $requested_artists_string);
+    }
 }
