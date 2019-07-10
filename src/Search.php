@@ -88,7 +88,20 @@ class Search extends Info
                 echo "Matched by stripos single diff\n";
             return $match;
         }
-        elseif(mb_stripos($tidal_artists_string,$requested_artists_string)!==false)
+        else {
+            foreach ($match['artists'] as $key => $artist) {
+                if (mb_stripos($tidal_artists_string, $artist['name']) === false)
+                    break;
+
+                if ($key === count($match['artists']) - 1) {
+                    if ($this->debug)
+                        echo "All TIDAL artists in lookup string\n";
+                    return $match;
+                }
+
+            }
+        }
+        if(mb_stripos($tidal_artists_string,$requested_artists_string)!==false)
         {
             return $match;
         }
