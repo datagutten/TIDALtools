@@ -2,6 +2,7 @@
 
 
 namespace datagutten\Tidal;
+use InvalidArgumentException;
 
 
 class Search extends Info
@@ -59,7 +60,11 @@ class Search extends Info
      */
 	function verify_search($match, $title, $artists, $requested_artists_string=null)
     {
-        //TODO: Verify argument array
+        if(!is_array($match))
+            throw new InvalidArgumentException();
+        if(isset($match['items']))
+            throw new InvalidArgumentException('Argument should be single track, not multiple search results');
+
         //A remix is not a match if the original track is requested
         if((stripos($title,'remix')===false) !== (stripos($match['title'],'remix')===false))
             return false;
