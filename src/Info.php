@@ -93,7 +93,6 @@ class Info
      */
     public static function get_token($url='https://tidal.com/browse/')
     {
-        echo "Get token from $url\n";
         $response=Requests::Get($url);
         preg_match('/api\.tidalhifi\.com.+token=([a-zA-Z0-9]+)/', $response->body,$token);
         if(empty($token[1]))
