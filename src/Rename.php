@@ -32,7 +32,7 @@ class Rename extends Info
     function __construct($config = null)
     {
         if(empty($config))
-            $this->config = require 'config_tidal.php';
+            $this->config = require 'config.php';
         else
             $this->config = $config;
 
