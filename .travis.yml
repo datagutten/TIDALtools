@@ -1,8 +1,5 @@
 language: php
 
-matrix:
-  fast_finish: true
-
 php:
   - 5.4
   - 5.5
@@ -11,6 +8,14 @@ php:
   - 7.1
   - 7.2
   - nightly
+
+matrix:
+  fast_finish: true
+  include:
+    - php: 5.4
+      dist: trusty
+    - php: 5.5
+      dist: trusty
 
 allow_failures:
   - php: nightly
