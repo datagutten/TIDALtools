@@ -47,7 +47,7 @@ class SearchTest extends TestCase
         $search = $tidal->search_track('lite og stort');
         $match = false;
         foreach ($search['items'] as $result) {
-            $match = $tidal->verify_search($result, 'Lite og stort', array('No. 4'));
+            $match = $tidal->verify_search($result, 'Lite og stort', ['No. 4']);
             if($match!==false)
                 break;
         }
@@ -62,7 +62,7 @@ class SearchTest extends TestCase
     {
         $tidal=new Search;
         $tidal->token = Search::get_token();
-        $match = $tidal->search_track_verify('lite og stort', array('No. 4'));
+        $match = $tidal->search_track_verify('lite og stort', ['No. 4']);
         $this->assertNotFalse($match);
         $this->assertEquals('Lite og stort', $match['title']);
     }
