@@ -16,7 +16,8 @@ allow_failures:
   - php: nightly
 
 install:
- - composer install --dev --no-interaction
+ - composer install --no-interaction
+ - composer update
 
 before_script:
  - vendor/bin/phpunit --version
