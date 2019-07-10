@@ -4,6 +4,7 @@
 namespace datagutten\Tidal;
 use InvalidArgumentException;
 use Requests;
+use Requests_Exception;
 
 
 class Info
@@ -93,8 +94,15 @@ class Info
      */
     public static function get_token($url='https://tidal.com/browse/')
     {
-        $response=Requests::Get($url);
-        preg_match('/api\.tidalhifi\.com.+token=([a-zA-Z0-9]+)/', $response->body,$token);
+        try {
+            $response = Requests::Get($url);
+            $response->throw_for_status();
+        }
+        catch (Requests_Exception $e)
+        {
+            throw new TidalError($e->getMessage(), 0, $e);
+        }
+        preg_match('/api\.tidal(?:hifi)?\.com.+token=([a-zA-Z0-9]+)/', $response->body,$token);
         if(empty($token[1]))
             throw new TidalError('Token not found in response string');
         return $token[1];
