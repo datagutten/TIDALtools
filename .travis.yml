@@ -13,7 +13,9 @@ matrix:
     - php: 'nightly'
 
 install:
- - composer install --no-interaction --ignore-platform-reqs
+ - if [ $(phpenv version-name) = "8.0" ]; then composer install --no-interaction --ignore-platform-reqs;
+   else composer install --no-interaction;
+   fi
 
 before_script:
  - vendor/bin/phpunit --version
