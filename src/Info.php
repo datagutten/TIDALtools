@@ -108,6 +108,8 @@ class Info
      */
 	public static function get_id($id_or_url,$topic='')
 	{
+	    if(empty($id_or_url))
+            throw new InvalidArgumentException('Empty argument');
 		if(is_numeric($id_or_url))
 			return $id_or_url;
 		elseif(!preg_match(sprintf('#%s/([0-9]+)#',$topic),$id_or_url,$id))
