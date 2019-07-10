@@ -8,6 +8,9 @@
     "rmccue/requests": "^1.0",
     "ext-mbstring": "*"
   },
+  "require-dev": {
+    "phpunit/phpunit": "*"
+  },
   "autoload": {
     "psr-4": {
       "datagutten\\Tidal\\": "src"

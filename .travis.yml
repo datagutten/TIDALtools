@@ -19,7 +19,7 @@ install:
  - composer install --dev --no-interaction
 
 before_script:
- - phpunit --version
+ - vendor/bin/phpunit --version
 
 script:
- - phpunit --bootstrap vendor/autoload.php tests
+ - vendor/bin/phpunit --bootstrap vendor/autoload.php tests
