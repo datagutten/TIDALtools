@@ -2,7 +2,7 @@
 
 
 namespace datagutten\Tidal;
-use AudioMetadata;
+use datagutten\AudioMetadata\AudioMetadata;
 use InvalidArgumentException;
 use Exception;
 
