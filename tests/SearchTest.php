@@ -81,4 +81,39 @@ class SearchTest extends TestCase
         $this->assertNotFalse($match);
         $this->assertEquals('Lite og stort', $match['title']);
     }
+
+    /**
+     * @throws TidalError
+     */
+    public function testSearchAndVerifyFeat()
+    {
+        $match = $this->tidal->search_track_verify('Don\'t check on me', ['Chris brown feat. justin bieber & ink']);
+        $this->assertNotFalse($match);
+        $artists = implode(', ', array_column($match['artists'], 'name'));
+        $this->assertEquals('Chris Brown, Justin Bieber, Ink', $artists);
+        $this->assertEquals('Don\'t Check On Me', $match['title']);
+    }
+
+    /**
+     * @throws TidalError
+     */
+    public function testSearchAndVerifyFeat2()
+    {
+        $match = $this->tidal->search_track_verify('Summer days', ['Martin garrix feat. macklemore, patric stump of fall out boy']);
+        $this->assertNotFalse($match);
+        $artists = implode(', ', array_column($match['artists'], 'name'));
+        $this->assertEquals('Martin Garrix, Macklemore, Fall Out Boy', $artists);
+        $this->assertEquals('Summer Days (feat. Macklemore & Patrick Stump of Fall Out Boy)', $match['title']);
+    }
+
+    /**
+     * @throws TidalError
+     */
+    public function testCorrectArtist()
+    {
+        $match = $this->tidal->search_track_verify('Neste Sommer', ['TIX']);
+        $this->assertNotFalse($match);
+        $this->assertEquals('Tix', $match['artist']['name']);
+        $this->assertEquals('Neste Sommer', $match['title']);
+    }
 }
