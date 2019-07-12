@@ -141,7 +141,13 @@ class Info
         if(empty($this->token))
         {
             $web_url = sprintf('https://tidal.com/%s/%s', rtrim($topic, 's'), $id);
-            $this->token = $this->get_token($web_url);
+            try {
+                $this->token = $this->get_token($web_url);
+            }
+            catch (TidalError $e)
+            {
+                throw new TidalError('Unable to get token from '.$web_url, 0, $e);
+            }
         }
 
         $headers = array(
