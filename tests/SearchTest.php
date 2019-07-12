@@ -116,4 +116,26 @@ class SearchTest extends TestCase
         $this->assertEquals('Tix', $match['artist']['name']);
         $this->assertEquals('Neste Sommer', $match['title']);
     }
+
+    /**
+     * @throws TidalError
+     */
+    public function testLevenshtein()
+    {
+        $match = $this->tidal->search_track_verify('Det finnes bare vi', ['No.4']);
+        $this->assertNotFalse($match);
+        $this->assertEquals('No. 4', $match['artist']['name']);
+        $this->assertEquals('Det finnes bare vi', $match['title']);
+    }
+
+    /**
+     * @throws TidalError
+     */
+    public function testPartialArtist()
+    {
+        $match = $this->tidal->search_track_verify('NM i drittsekk', ['Karpe Diem']);
+        $this->assertNotFalse($match);
+        $this->assertEquals('karpe', $match['artist']['name']);
+        $this->assertEquals('NM i drittsekk', $match['title']);
+    }
 }
