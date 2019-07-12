@@ -118,8 +118,29 @@ class Search extends Info
                 echo "Matched by levenshtein distance\n";
             return $match;
         }
-        else
-            return false;
+        if(preg_match('/(.+)\sfeat\.\s(.+)(?:\s&|,)\s(.+)/', $requested_artists_string, $artists_feat))
+        {
+            unset($artists_feat[0]);
+            $artists_feat_lower = array_map('strtolower', $artists_feat);
+            $diff = array_diff($tidal_artists_lower, $artists_feat_lower);
+            if(empty($diff))
+            {
+                if($this->debug)
+                    echo "Matched by array_diff feat\n";
+                return $match;
+            }
+            elseif(count($diff)===1)
+            {
+                $artist = array_pop($diff);
+                if(mb_stripos($requested_artists_string, $artist)!==false)
+                {
+                    if($this->debug)
+                        echo "Missing featured artist matched by stripos\n";
+                    return $match;
+                }
+            }
+        }
+        return false;
     }
 
     /**
