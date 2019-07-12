@@ -79,6 +79,8 @@ class Search extends Info
         $requested_artists_lower = array_map('strtolower', $artists);
 
         $diff = array_diff($tidal_artists_lower, $requested_artists_lower);
+        if($this->debug && count($diff)>=1)
+            printf("Array diff left %d artist(s):\n%s\n\n", count($diff), implode("\n", $diff));
 
         if(empty($diff))
         {
