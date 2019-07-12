@@ -11,6 +11,14 @@ class SearchTest extends TestCase
      * @var Search
      */
     public $tidal;
+
+    /**
+     * SearchTest constructor.
+     * @param null $name
+     * @param array $data
+     * @param string $dataName
+     * @throws TidalError
+     */
     public function __construct($name = null, array $data = [], $dataName = '')
     {
         parent::__construct($name, $data, $dataName);
