@@ -7,6 +7,13 @@ use PHPUnit\Framework\TestCase;
 
 class GetIdTest extends TestCase
 {
+    function testEmptyArgument()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Empty argument');
+        Info::get_id('');
+    }
+
     function testId()
     {
         $id = Info::get_id('19226924');
@@ -33,6 +40,15 @@ class GetIdTest extends TestCase
         $id = Info::get_id('https://tidal.com/browse/track/19226925');
         $this->assertEquals(19226925, $id);
     }
+
+    function testPlaylistURL()
+    {
+        $id = Info::get_id('https://tidal.com/browse/playlist/5944f841-c9e2-4dc3-8928-7ecf6ec167b3', 'playlist');
+        $this->assertEquals('5944f841-c9e2-4dc3-8928-7ecf6ec167b3', $id);
+        $id = Info::get_id('https://tidal.com/browse/playlist/5944f841-c9e2-4dc3-8928-7ecf6ec167b3');
+        $this->assertEquals('5944f841-c9e2-4dc3-8928-7ecf6ec167b3', $id);
+    }
+
     function testMismatchURL()
     {
         $this->expectException(InvalidArgumentException::class);
