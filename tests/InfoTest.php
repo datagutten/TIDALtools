@@ -121,6 +121,16 @@ class InfoTest extends TestCase
     /**
      * @throws Tidal\TidalError
      */
+    public function testPlaylistImage()
+    {
+        $playlist = $this->tidal->playlist('http://www.tidal.com/playlist/5944f841-c9e2-4dc3-8928-7ecf6ec167b3');
+        $response = Requests::head($playlist['image']);
+        $this->assertEquals(200, $response->status_code);
+    }
+
+    /**
+     * @throws Tidal\TidalError
+     */
     public function testArtist()
     {
         $this->tidal->token = Tidal\Info::get_token();

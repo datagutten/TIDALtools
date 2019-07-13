@@ -88,7 +88,12 @@ class Info
      */
 	public static function resolve_image($info)
 	{
-	    $pairs = array('cover'=>'640x640', 'picture'=>'320x320');
+	    /*
+	     * Cover: Album 640x640
+	     * Picture: Artist 320x320
+	     * Image: Playlist 640x428
+	     */
+	    $pairs = array('cover'=>'640x640', 'picture'=>'320x320', 'image'=>'640x428');
 	    foreach ($pairs as $key=>$size)
         {
             if(isset($info[$key]))
