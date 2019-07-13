@@ -56,6 +56,8 @@ class Info
         }
         catch (Requests_Exception $e)
         {
+            if($response->status_code>=400 && $response->status_code<=499)
+                $this->parse_response($response->body);
             throw new TidalError($e->getMessage(), 0, $e);
         }
 	}
