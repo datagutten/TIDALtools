@@ -168,7 +168,7 @@ class Info
 		//Can use sessionId or token
         if(empty($this->token))
         {
-            $web_url = sprintf('https://tidal.com/%s/%s', rtrim($topic, 's'), $id);
+            $web_url = sprintf('https://tidal.com/browse/%s/%s', rtrim($topic, 's'), $id);
             try {
                 $this->token = $this->get_token($web_url);
             }

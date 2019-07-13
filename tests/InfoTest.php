@@ -37,6 +37,16 @@ class InfoTest extends TestCase
     /**
      * @throws Tidal\TidalError
      */
+    public function testApiRequestBadToken()
+    {
+        $this->expectException(Tidal\TidalError::class);
+        $this->expectExceptionMessage('Unable to get token from https://tidal.com/browse/foo/bar');
+        $this->tidal->api_request('foo', 'bar');
+    }
+
+    /**
+     * @throws Tidal\TidalError
+     */
     public function testQueryEmptyURL()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -95,6 +105,16 @@ class InfoTest extends TestCase
         $this->expectException(Tidal\TidalError::class);
         $this->expectExceptionMessage('Missing token');
         $this->tidal->artist('https://tidal.com/browse/artist/5496411');
+    }
+
+    /**
+     * @throws Tidal\TidalError
+     */
+    public function testGetTokenFromRequest()
+    {
+        $track = $this->tidal->track('https://tidal.com/browse/track/82348963');
+        $this->assertIsArray($track);
+        $this->assertEquals('Lite og stort', $track['title']);
     }
 
     public function testArtistImage()
