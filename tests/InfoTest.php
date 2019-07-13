@@ -17,6 +17,26 @@ class InfoTest extends TestCase
     /**
      * @throws Tidal\TidalError
      */
+    public function testTokenNotFound()
+    {
+        $this->expectException(Tidal\TidalError::class);
+        $this->expectExceptionMessage('Token not found in response string');
+        Tidal\Info::get_token('https://httpbin.org');
+    }
+
+    /**
+     * @throws Tidal\TidalError
+     */
+    public function testTokenBadCode()
+    {
+        $this->expectException(Tidal\TidalError::class);
+        $this->expectExceptionMessage('500 Internal Server Error');
+        Tidal\Info::get_token('https://httpbin.org/status/500');
+    }
+
+    /**
+     * @throws Tidal\TidalError
+     */
     public function testQueryEmptyURL()
     {
         $this->expectException(InvalidArgumentException::class);
