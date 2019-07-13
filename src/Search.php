@@ -66,7 +66,8 @@ class Search extends Info
             throw new InvalidArgumentException('Argument should be single track, not multiple search results');
 
         //A remix is not a match if the original track is requested
-        if((stripos($title,'remix')===false) && (stripos($match['title'],'remix')===false))
+        if((stripos($title,'remix')===false) !== //Remix wanted
+            (stripos($match['title'], 'remix') === false && stripos($match['version'], 'remix') === false)) //Remix found
             return false;
 
         $tidal_artists_string=implode("\n",array_column($match['artists'],'name')); //Create a string from the search result artist array
