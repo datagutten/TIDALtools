@@ -22,4 +22,4 @@ before_script:
  - vendor/bin/phpunit --version
 
 script:
- - vendor/bin/phpunit --bootstrap vendor/autoload.php tests
+ - vendor/bin/phpunit --coverage-clover clover.xml --bootstrap vendor/autoload.php tests
