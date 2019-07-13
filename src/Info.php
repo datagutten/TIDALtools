@@ -45,12 +45,12 @@ class Info
 
         $options['useragent'] = $this->useragent;
 
-		if(empty($post_data))
+        if(empty($post_data))
             $response = Requests::get($url, $headers, $options);
-		else
-			$response = Requests::post($url, $headers, $post_data, $options);
+        else
+            $response = Requests::post($url, $headers, $post_data, $options);
 
-		return $response->body;
+        return $response->body;
 	}
 
     /**
