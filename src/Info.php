@@ -128,26 +128,26 @@ class Info
      * @param string $topic
      * @return string id
      */
-	public static function get_id($id_or_url,$topic='')
-	{
-	    if(empty($id_or_url))
+    public static function get_id($id_or_url, $topic = '')
+    {
+        if (empty($id_or_url))
             throw new InvalidArgumentException('Empty argument');
-		if(is_numeric($id_or_url))
-			return $id_or_url;
-		elseif(preg_match('#playlist/([a-f0-9-]+)#', $id_or_url, $id))
+        if (is_numeric($id_or_url))
+            return $id_or_url;
+        elseif (preg_match('#playlist/([a-f0-9-]+)#', $id_or_url, $id))
             return $id[1];
-		elseif(!empty($topic))
+        elseif (!empty($topic))
         {
-            if(preg_match(sprintf('#%s/([0-9]+)#',$topic),$id_or_url,$id))
+            if (preg_match(sprintf('#%s/([0-9]+)#', $topic), $id_or_url, $id))
                 return $id[1];
             else
                 throw new InvalidArgumentException(sprintf('Invalid %s URL: %s', $topic, $id_or_url));
         }
-        elseif(preg_match(sprintf('#%s/([0-9]+)#',$topic),$id_or_url,$id))
+        elseif (preg_match(sprintf('#%s/([0-9]+)#', $topic), $id_or_url, $id))
             return $id[1];
         else
-            throw new InvalidArgumentException('Unable to find id from URL: '.$id_or_url);
-	}
+            throw new InvalidArgumentException('Unable to find id from URL: ' . $id_or_url);
+    }
 
     /**
      * Send request to the TIDAL API
