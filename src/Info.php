@@ -32,6 +32,7 @@ class Info
      * @param array $post_data POST data
      * @param array $headers Extra HTTP headers
      * @param array $options Options for Requests
+     * @throws TidalError
      * @return string
      */
 	function query($url, $post_data=array(), $headers=array(), $options = array())
@@ -49,8 +50,14 @@ class Info
             $response = Requests::get($url, $headers, $options);
         else
             $response = Requests::post($url, $headers, $post_data, $options);
-
-        return $response->body;
+        try {
+            $response->throw_for_status();
+            return $response->body;
+        }
+        catch (Requests_Exception $e)
+        {
+            throw new TidalError($e->getMessage(), 0, $e);
+        }
 	}
 
     /**
