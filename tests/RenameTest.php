@@ -3,6 +3,8 @@
 
 use datagutten\Tidal;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Filesystem\Filesystem;
+
 
 class RenameTest extends TestCase
 {
@@ -24,7 +26,7 @@ class RenameTest extends TestCase
         $pathinfo = pathinfo($file);
 
         $this->assertEquals('09 Det finnes bare vi.flac', $pathinfo['basename']);
-        $this->assertContains('No. 4 - Hva nå (2017) FLAC', $pathinfo['dirname']);
+        $this->assertStringContainsString('No. 4 - Hva nå (2017) FLAC', $pathinfo['dirname']);
     }
 
     public function tearDown(): void
