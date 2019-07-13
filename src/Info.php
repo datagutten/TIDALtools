@@ -66,12 +66,12 @@ class Info
      * @return array Parsed JSON data
      * @throws TidalError Error message from TIDAL
      */
-	function parse_response($data)
+	public static function parse_response($data)
 	{
 		if(!is_string($data))
 			throw new InvalidArgumentException('Data must be string');
 		$info=json_decode($data,true);
-		$info = $this->image($info);
+		$info = self::resolve_image($info);
 
 		if(isset($info['userMessage']))
             throw new TidalError($info['userMessage']);
@@ -84,13 +84,18 @@ class Info
      * @param array $info
      * @return array
      */
-	public static function image($info)
+	public static function resolve_image($info)
 	{
-		if(isset($info['cover']))
-			$info['cover']='http://resources.wimpmusic.com/images/'.str_replace('-','/',$info['cover']).'/640x640.jpg';
-		elseif(isset($info['image']))
-			$info['image']='http://resources.wimpmusic.com/images/'.str_replace('-','/',$info['image']).'/640x428.jpg';
-		return $info;
+	    $pairs = array('cover'=>'640x640', 'picture'=>'320x320');
+	    foreach ($pairs as $key=>$size)
+        {
+            if(isset($info[$key]))
+            {
+                $path = str_replace('-','/',$info[$key]);
+                $info[$key] = sprintf('https://resources.wimpmusic.com/images/%s/%s.jpg', $path,$size);
+            }
+        }
+	    return $info;
 	}
 
     /**
