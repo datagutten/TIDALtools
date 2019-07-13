@@ -170,4 +170,15 @@ class InfoTest extends TestCase
         $this->assertEquals('Jeg Er Så Oslo Du Kan Kalle Meg...', $playlist['title']);
         $this->assertEquals(21, $playlist['numberOfTracks']);
     }
+
+    public function testPlaylistMetadata()
+    {
+        $this->tidal->token = Tidal\Info::get_token();
+        $playlist = $this->tidal->playlist('https://tidal.com/browse/playlist/5944f841-c9e2-4dc3-8928-7ecf6ec167b3');
+        $track = $this->tidal->track('https://tidal.com/browse/track/19226925');
+        $metadata = Tidal\Info::prepare_metadata($track, $playlist, true);
+        $this->assertIsArray($metadata);
+        $this->assertEquals(true, $metadata['compilation']);
+        $this->assertEquals(21, $metadata['totaltracks']);
+    }
 }

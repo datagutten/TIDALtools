@@ -275,4 +275,57 @@ class Info
 		}
 		return $isrc_list;
 	}
+
+    /**
+     * Prepare metadata from TIDAL to be passed to AudioMetadata methods
+     * @param array $track Return value from Info::Track
+     * @param array $album Return value from Info::Album or Info::playlist
+     * @param bool $is_playlist Is playlist
+     * @return array
+     */
+    public static function prepare_metadata($track, $album, $is_playlist = false)
+    {
+        if (!is_array($track) || !is_array($album))
+            throw new InvalidArgumentException('Track info or album info not array');
+
+        $track['artist'] = $track['artist']['name'];
+        if (!$is_playlist)
+        {
+            $track['albumyear'] = date('Y', strtotime($album['releaseDate']));
+            $track['album'] = $track['album']['title'];
+            $track['albumartist'] = $album['artist']['name'];
+            $track['tracknumber'] = $track['trackNumber'];
+            $track['volumenumber'] = $track['volumeNumber'];
+            $track['totaltracks'] = $album['numberOfTracks'];
+            $track['totalvolumes'] = $album['numberOfVolumes'];
+            $track['cover'] = $album['cover'];
+            if ($album['artist']['id'] == 2935) //If album artist is "Various Artists" the album is a compilation
+                $track['compilation'] = true;
+            if (empty($track['year']) && preg_match('/([0-9]{4})/', $track['copyright'], $year))
+                $track['year'] = $year[1];
+        }
+        else
+        {
+            $track['album'] = $album['title'];
+            unset($track['tracknumber']);
+            $track['totaltracks'] = $album['numberOfTracks'];
+            $track['cover'] = $album['image'];
+            $track['compilation'] = true; //Playlists are always compilations
+        }
+        return $track;
+    }
+
+    /**
+     * Prepare metadata from TIDAL to be passed to AudioMetadata methods
+     * @param string $track Track ID or URL
+     * @param bool $playlist Part of a playlist
+     * @return array Metadata
+     * @throws TidalError
+     */
+    public function track_metadata($track, $playlist = false)
+    {
+        $track_info = $this->track($track);
+        $album_info = $this->album($track_info['album']['id']);
+        return self::prepare_metadata($track_info, $album_info, $playlist);
+    }
 }
