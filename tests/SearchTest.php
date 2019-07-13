@@ -1,9 +1,10 @@
 <?php
 //declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
 use datagutten\Tidal\Search;
 use datagutten\Tidal\TidalError;
+use PHPUnit\Framework\TestCase;
+
 class SearchTest extends TestCase
 {
     public $token;
@@ -138,4 +139,36 @@ class SearchTest extends TestCase
         $this->assertEquals('karpe', $match['artist']['name']);
         $this->assertEquals('NM i drittsekk', $match['title']);
     }
+
+    /**
+     * When a original track is requested, a remix is not a match
+     * @throws TidalError
+     */
+    public function testNotRemix()
+    {
+        $track_remix = $this->tidal->track('https://tidal.com/browse/track/87518814');
+        $match = $this->tidal->verify_search($track_remix, 'I Owe You', ['Joe Hertz', 'Wolfie']);
+        $this->assertEquals(false, $match);
+    }
+
+    /**
+     * The argument to verify_search should be a single track, not a search result
+     */
+    public function testSearchResult()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Argument should be single track, not multiple search results');
+        $this->tidal->verify_search(['items'=>[]], '', []);
+    }
+
+    /**
+     * Argument should be array, nothing else
+     */
+    public function testInvalidTrackArgument()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        /** @noinspection PhpParamsInspection */
+        $this->tidal->verify_search('', '', []);
+    }
+
 }
