@@ -134,10 +134,19 @@ class Info
             throw new InvalidArgumentException('Empty argument');
 		if(is_numeric($id_or_url))
 			return $id_or_url;
-		elseif(!preg_match(sprintf('#%s/([0-9]+)#',$topic),$id_or_url,$id))
-			throw new InvalidArgumentException(sprintf('Invalid %s URL: %s', $topic, $id_or_url));
-		else
-			return $id[1];
+		elseif(preg_match('#playlist/([a-f0-9-]+)#', $id_or_url, $id))
+            return $id[1];
+		elseif(!empty($topic))
+        {
+            if(preg_match(sprintf('#%s/([0-9]+)#',$topic),$id_or_url,$id))
+                return $id[1];
+            else
+                throw new InvalidArgumentException(sprintf('Invalid %s URL: %s', $topic, $id_or_url));
+        }
+        elseif(preg_match(sprintf('#%s/([0-9]+)#',$topic),$id_or_url,$id))
+            return $id[1];
+        else
+            throw new InvalidArgumentException('Unable to find id from URL: '.$id_or_url);
 	}
 
     /**
@@ -205,12 +214,13 @@ class Info
 
     /**
      * Get information about a playlist
-     * @param string $id Playlist id
+     * @param string $id_or_url Playlist id or URL
      * @return array Information about the playlist
      * @throws TidalError API request failed
      */
-	function playlist($id)
+	function playlist($id_or_url)
 	{
+	    $id = self::get_id($id_or_url);
  		$playlist_info=$this->api_request('playlists',$id);
 		$limit=ceil($playlist_info['numberOfTracks']/100)*100;
  		$playlist_tracks=$this->api_request('playlists',$id,'tracks',"&limit=$limit&orderDirection=ASC");
