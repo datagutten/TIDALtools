@@ -20,6 +20,8 @@ install:
 
 before_script:
  - vendor/bin/phpunit --version
+ - mkdir tests/sample_data
+ - wget -O tests/sample_data/test.flac http://techslides.com/demos/samples/sample.flac
 
 script:
  - vendor/bin/phpunit --coverage-clover clover.xml --bootstrap vendor/autoload.php tests
