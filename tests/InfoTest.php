@@ -128,4 +128,36 @@ class InfoTest extends TestCase
         $this->assertIsArray($artist);
         $this->assertEquals('No. 4', $artist['title']);
     }
+
+    public function testPrepareMetadataInvalidArgument()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Track info or album info not array');
+        Tidal\Info::prepare_metadata('','');
+    }
+
+    /**
+     * @throws Tidal\TidalError
+     */
+    public function testCompilation()
+    {
+        $album = $this->tidal->album('https://tidal.com/browse/album/112868751');
+        $track = $this->tidal->track('https://tidal.com/browse/track/112868755');
+        $metadata = Tidal\Info::prepare_metadata($track, $album);
+        $this->assertIsArray($metadata);
+        $this->assertEquals(4, $metadata['tracknumber']);
+        $this->assertEquals('I Just Can\'t Wait to Be King', $metadata['title']);
+    }
+
+    /**
+     * @throws Tidal\TidalError
+     */
+    public function testPlaylist()
+    {
+        $this->tidal->token = Tidal\Info::get_token();
+        $playlist = $this->tidal->playlist('https://tidal.com/browse/playlist/5944f841-c9e2-4dc3-8928-7ecf6ec167b3');
+        $this->assertIsArray($playlist);
+        $this->assertEquals('Jeg Er Så Oslo Du Kan Kalle Meg...', $playlist['title']);
+        $this->assertEquals(21, $playlist['numberOfTracks']);
+    }
 }
