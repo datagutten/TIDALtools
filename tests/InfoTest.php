@@ -127,6 +127,18 @@ class InfoTest extends TestCase
     }
 
     /**
+     * Get album tracks
+     * @throws Tidal\TidalError
+     */
+    public function testAlbumTracks()
+    {
+        $album = $this->tidal->album('https://tidal.com/browse/album/80219164', true);
+        $this->assertIsArray($album);
+        $this->assertArrayHasKey('items', $album);
+        $this->assertEquals('Hva nå', $album['items'][0]['title']);
+    }
+
+    /**
      * @throws Tidal\TidalError
      */
     public function testAlbumCover()
@@ -136,6 +148,17 @@ class InfoTest extends TestCase
         $this->assertEquals('Hva nå', $album['title']);
         $response = Requests::head($album['cover']);
         $this->assertEquals(200, $response->status_code);
+    }
+
+    /**
+     * Test fetching of ISRC for album
+     * @throws Tidal\TidalError
+     */
+    public function testAlbumISRC()
+    {
+        $isrc = $this->tidal->album_isrc('https://tidal.com/browse/album/80219164');
+        $this->assertIsArray($isrc);
+        $this->assertEquals('NO4DI1706010', $isrc['1-1']);
     }
 
     /**
@@ -159,10 +182,25 @@ class InfoTest extends TestCase
         $this->assertEquals('No. 4', $artist['title']);
     }
 
+    /**
+     * @throws Tidal\TidalError
+     */
+    public function testArtistAlbums()
+    {
+        $albums = $this->tidal->artist_albums('https://tidal.com/browse/artist/5496411');
+        $this->assertIsArray($albums);
+        $this->assertArrayHasKey('items', $albums);
+        $this->assertEquals('Hva nå', $albums['items'][0]['title']);
+    }
+
+    /**
+     * Test if the correct exception is thrown when passing a string to Info::prepare_metadata
+     */
     public function testPrepareMetadataInvalidArgument()
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Track info or album info not array');
+        /* @noinspection PhpParamsInspection */
         Tidal\Info::prepare_metadata('','');
     }
 
