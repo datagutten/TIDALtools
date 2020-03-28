@@ -50,16 +50,13 @@ class Info
             $response = Requests::get($url, $headers, $options);
         else
             $response = Requests::post($url, $headers, $post_data, $options);
-        try {
-            $response->throw_for_status();
-            return $response->body;
-        }
-        catch (Requests_Exception $e)
-        {
-            if($response->status_code>=400 && $response->status_code<=499)
-                $this->parse_response($response->body);
-            throw new TidalError($e->getMessage(), 0, $e);
-        }
+
+		if($response->status_code>=400 && $response->status_code<=499)
+			$this->parse_response($response->body);
+		elseif($response->success===false)
+			throw new TidalError('HTTP request unsuccessful: '.$response->body);
+
+		return $response->body;
 	}
 
     /**
@@ -77,6 +74,8 @@ class Info
 
 		if(isset($info['userMessage']))
             throw new TidalError($info['userMessage']);
+		if(isset($info['errors']))
+			throw new TidalError($info['errors'][0]['message']);
 		else
 			return $info;
 	}
