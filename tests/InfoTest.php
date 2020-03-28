@@ -74,7 +74,7 @@ class InfoTest extends TestCase
     public function testQueryError()
     {
         $this->expectException(Tidal\TidalError::class);
-        $this->tidal->query('https://httpbin.org/status/codes/500');
+        $this->tidal->query('https://httpbin.org/status/500');
     }
 
     /**
