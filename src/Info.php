@@ -131,7 +131,7 @@ class Info
      * Get id from URL
      * @param $id_or_url
      * @param string $topic
-     * @return string id
+     * @return int|string id
      */
     public static function get_id($id_or_url, $topic = '')
     {
@@ -144,12 +144,12 @@ class Info
         elseif (!empty($topic))
         {
             if (preg_match(sprintf('#%s/([0-9]+)#', $topic), $id_or_url, $id))
-                return $id[1];
+                return (int)$id[1];
             else
                 throw new InvalidArgumentException(sprintf('Invalid %s URL: %s', $topic, $id_or_url));
         }
         elseif (preg_match(sprintf('#%s/([0-9]+)#', $topic), $id_or_url, $id))
-            return $id[1];
+            return (int)$id[1];
         else
             throw new InvalidArgumentException('Unable to find id from URL: ' . $id_or_url);
     }
