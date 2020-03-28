@@ -107,13 +107,13 @@ class Info
 
     /**
      * Get token
-     * @param string $url
      * @return string Token
      * @throws TidalError Token not found in response string
      */
-    public static function get_token($url='https://tidal.com/browse/')
+    public static function get_token()
     {
         try {
+            $url = 'https://listen.tidal.com/app.5a3cbbd2c3c151b833cb.chunk.js';
             $response = Requests::Get($url);
             $response->throw_for_status();
         }
@@ -121,7 +121,7 @@ class Info
         {
             throw new TidalError($e->getMessage(), 0, $e);
         }
-        preg_match('/api\.tidal(?:hifi)?\.com.+token=([a-zA-Z0-9]+)/', $response->body,$token);
+        preg_match('/r=window\.TIDAL_CONFIG.+l\?.+:"(.+)"\)/U', $response->body, $token);
         if(empty($token[1]))
             throw new TidalError('Token not found in response string');
         return $token[1];
@@ -170,7 +170,7 @@ class Info
         {
             $web_url = sprintf('https://tidal.com/browse/%s/%s', rtrim($topic, 's'), $id);
             try {
-                $this->token = $this->get_token($web_url);
+                $this->token = $this->get_token();
             }
             catch (TidalError $e)
             {

@@ -17,32 +17,32 @@ class InfoTest extends TestCase
     /**
      * @throws Tidal\TidalError
      */
-    public function testTokenNotFound()
+    /*public function testTokenNotFound()
     {
         $this->expectException(Tidal\TidalError::class);
         $this->expectExceptionMessage('Token not found in response string');
         Tidal\Info::get_token('https://httpbin.org');
-    }
+    }*/
 
     /**
      * @throws Tidal\TidalError
      */
-    public function testTokenBadCode()
+    /*public function testTokenBadCode()
     {
         $this->expectException(Tidal\TidalError::class);
         $this->expectExceptionMessage('500 Internal Server Error');
         Tidal\Info::get_token('https://httpbin.org/status/500');
-    }
+    }*/
 
     /**
      * @throws Tidal\TidalError
      */
-    public function testApiRequestBadToken()
+    /*public function testApiRequestBadToken()
     {
         $this->expectException(Tidal\TidalError::class);
         $this->expectExceptionMessage('Unable to get token from https://tidal.com/browse/foo/bar');
         $this->tidal->api_request('foo', 'bar');
-    }
+    }*/
 
     /**
      * @throws Tidal\TidalError
@@ -105,6 +105,15 @@ class InfoTest extends TestCase
         $this->expectException(Tidal\TidalError::class);
         $this->expectExceptionMessage('Missing token');
         $this->tidal->artist('https://tidal.com/browse/artist/5496411');
+    }
+
+	/**
+	 * @throws Tidal\TidalError
+	 */
+    public function testGetToken()
+    {
+        $token = Tidal\Info::get_token();
+        $this->assertNotEmpty($token);
     }
 
     /**
