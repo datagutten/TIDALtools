@@ -118,6 +118,7 @@ class InfoTest extends TestCase
 
     /**
      * @throws Tidal\TidalError
+     * @requires PHPUnit >= 8
      */
     public function testGetTokenFromRequest()
     {
@@ -138,6 +139,7 @@ class InfoTest extends TestCase
     /**
      * Get album tracks
      * @throws Tidal\TidalError
+     * @requires PHPUnit >= 8
      */
     public function testAlbumTracks()
     {
@@ -149,6 +151,7 @@ class InfoTest extends TestCase
 
     /**
      * @throws Tidal\TidalError
+     * @requires PHPUnit >= 8
      */
     public function testAlbumCover()
     {
@@ -162,6 +165,7 @@ class InfoTest extends TestCase
     /**
      * Test fetching of ISRC for album
      * @throws Tidal\TidalError
+     * @requires PHPUnit >= 8
      */
     public function testAlbumISRC()
     {
@@ -182,6 +186,7 @@ class InfoTest extends TestCase
 
     /**
      * @throws Tidal\TidalError
+     * @requires PHPUnit >= 8
      */
     public function testArtist()
     {
@@ -193,6 +198,7 @@ class InfoTest extends TestCase
 
     /**
      * @throws Tidal\TidalError
+     * @requires PHPUnit >= 8
      */
     public function testArtistAlbums()
     {
@@ -215,6 +221,7 @@ class InfoTest extends TestCase
 
     /**
      * @throws Tidal\TidalError
+     * @requires PHPUnit >= 8
      */
     public function testCompilation()
     {
@@ -228,6 +235,7 @@ class InfoTest extends TestCase
 
     /**
      * @throws Tidal\TidalError
+     * @requires PHPUnit >= 8
      */
     public function testPlaylist()
     {
@@ -238,6 +246,10 @@ class InfoTest extends TestCase
         $this->assertEquals(21, $playlist['numberOfTracks']);
     }
 
+    /**
+     * @throws Tidal\TidalError
+     * @requires PHPUnit >= 8
+     */
     public function testPlaylistMetadata()
     {
         $this->tidal->token = Tidal\Info::get_token();
