@@ -85,12 +85,12 @@ class Rename extends Info
     /**
      * @param string $file File to be renamed
      * @param string|array $track Can be track id, array with return value of track_metadata() or return value of Info::track()
-     * @param array Array with album info from Info::album
+     * @param array $album Array with album info from Info::album
      * @throws TidalError Error fetching info from TIDAL
      * @throws Exception Error writing metadata
      * @return string Renamed file
      */
-    public function rename($file, $track, $album = null)
+    public function rename($file, $track, $album = [])
     {
         if(!is_array($track))
             $track = Info::track_metadata($track);
@@ -98,7 +98,7 @@ class Rename extends Info
         {
             if(is_array($track['artist'])) //Data from TIDAL
             {
-                if(!is_array($album))
+                if(!empty($album))
                     $album = $this->album($track['album']['id']);
 
                 $track = self::prepare_metadata($track, $album);
