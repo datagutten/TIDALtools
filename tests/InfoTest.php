@@ -80,16 +80,6 @@ class InfoTest extends TestCase
     /**
      * @throws Tidal\TidalError
      */
-    public function testResponseNotString()
-    {
-        $this->expectException(InvalidArgumentException::class);
-        /** @noinspection PhpParamsInspection */
-        $this->tidal->parse_response(['foo']);
-    }
-
-    /**
-     * @throws Tidal\TidalError
-     */
     public function testExceptionMessage()
     {
         $this->expectException(Tidal\TidalError::class);
@@ -206,17 +196,6 @@ class InfoTest extends TestCase
         $this->assertIsArray($albums);
         $this->assertArrayHasKey('items', $albums);
         $this->assertEquals('Duell', $albums['items'][0]['title']);
-    }
-
-    /**
-     * Test if the correct exception is thrown when passing a string to Info::prepare_metadata
-     */
-    public function testPrepareMetadataInvalidArgument()
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Track info or album info not array');
-        /* @noinspection PhpParamsInspection */
-        Tidal\Info::prepare_metadata('','');
     }
 
     /**

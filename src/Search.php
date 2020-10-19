@@ -17,7 +17,7 @@ class Search extends Info
      * @param string $title "Kem Kan Eg Ringe (feat. Store P & Lars Vaular)"
      * @return string "Kem Kan Eg Ringe"
      */
-	public static function remove_featured($title)
+	public static function remove_featured(string $title)
 	{
         $title=preg_replace('/(.+) \(?feat.+/i','$1', $title);
         $title=preg_replace('/(.+) \(?with.+/i','$1',$title);
@@ -30,7 +30,7 @@ class Search extends Info
      * @return array Search results
      * @throws TidalError
      */
-	function search_track($search, $limit = 60)
+	function search_track(string $search, $limit = 60)
 	{
         $matches=$this->api_request('search','tracks','',sprintf('&limit=%d&query=%s',$limit ,urlencode($search)));
         if($matches['totalNumberOfItems']>60)
@@ -58,10 +58,8 @@ class Search extends Info
      * @param string $requested_artists_string Requested artists as string
      * @return bool|array Return false if track is not found, else return value of argument $match
      */
-	function verify_search($match, $title, $artists, $requested_artists_string=null)
+	function verify_search(array $match, string $title, array $artists, $requested_artists_string='')
     {
-        if(!is_array($match))
-            throw new InvalidArgumentException();
         if(isset($match['items']))
             throw new InvalidArgumentException('Argument should be single track, not multiple search results');
 
@@ -139,7 +137,7 @@ class Search extends Info
      * @param string $requested_artists_string Expected artists as string
      * @return array|bool Return array with track info if found, else return false
      */
-    function find_search_result($results, $title, $artists, $requested_artists_string = null)
+    function find_search_result(array $results, string $title, array $artists, string $requested_artists_string = '')
     {
         if(!isset($results['items']))
             throw new InvalidArgumentException('Invalid search results');
@@ -160,7 +158,7 @@ class Search extends Info
      * @throws TidalError
      * @return array|bool Return array with track info if found, else return false
      */
-    function search_track_verify($title, $artists, $requested_artists_string = null)
+    function search_track_verify(string $title, array $artists, $requested_artists_string = '')
     {
         $search = $this->search_track($title);
         return $this->find_search_result($search, $title, $artists, $requested_artists_string);

@@ -165,15 +165,4 @@ class SearchTest extends TestCase
         $this->expectExceptionMessage('Argument should be single track, not multiple search results');
         $this->tidal->verify_search(['items'=>[]], '', []);
     }
-
-    /**
-     * Argument should be array, nothing else
-     */
-    public function testInvalidTrackArgument()
-    {
-        $this->expectException(InvalidArgumentException::class);
-        /** @noinspection PhpParamsInspection */
-        $this->tidal->verify_search('', '', []);
-    }
-
 }

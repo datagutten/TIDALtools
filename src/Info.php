@@ -65,7 +65,7 @@ class Info
      * @return array Parsed JSON data
      * @throws TidalError Error message from TIDAL
      */
-	public static function parse_response($data)
+	public static function parse_response(string $data)
 	{
 		if(!is_string($data))
 			throw new InvalidArgumentException('Data must be string');
@@ -85,7 +85,7 @@ class Info
      * @param array $info
      * @return array
      */
-	public static function resolve_image($info)
+	public static function resolve_image(array $info)
 	{
 	    /*
 	     * Cover: Album 640x640
@@ -162,7 +162,7 @@ class Info
      * @return array Response from TIDAL
      * @throws TidalError TIDAL returned error or unable to get token
      */
-	function api_request($topic,$id,$field='',$url_extra='')
+	function api_request(string $topic, string $id, $field='', $url_extra='')
 	{
 		//Can use sessionId or token
         if(empty($this->token))
@@ -194,7 +194,7 @@ class Info
      * @return array Information about the album
      * @throws TidalError API request failed
      */
-	function album($album,$tracks=false)
+	function album(string $album,$tracks=false)
 	{
 		if($tracks)
 			$field='tracks';
@@ -210,7 +210,7 @@ class Info
      * @return array Information about the track
      * @throws TidalError API request failed
      */
-	function track($track)
+	function track(string $track)
 	{
 		$id=$this->get_id($track,'track');
 		return $this->api_request('tracks',$id,'');
@@ -222,7 +222,7 @@ class Info
      * @return array Information about the playlist
      * @throws TidalError API request failed
      */
-	function playlist($id_or_url)
+	function playlist(string $id_or_url)
 	{
 	    $id = self::get_id($id_or_url);
  		$playlist_info=$this->api_request('playlists',$id);
@@ -237,7 +237,7 @@ class Info
      * @return array Artist info
      * @throws TidalError
      */
-	function artist($artist)
+	function artist(string $artist)
     {
         $id = self::get_id($artist);
         $url = sprintf('https://api.tidal.com/v1/pages/artist?countryCode=%s&locale=en_NO&deviceType=PHONE&artistId=%s',
@@ -251,7 +251,7 @@ class Info
      * @return array Artist albums
      * @throws TidalError
      */
-    function artist_albums($artist)
+    function artist_albums(string $artist)
     {
         $artist = self::get_id($artist);
         return $this->api_request('artists', $artist, 'albums');
@@ -263,7 +263,7 @@ class Info
      * @return array
      * @throws TidalError API request failed
      */
-	function album_isrc($album)
+	function album_isrc(string $album)
 	{
 		$album_info=$this->album($album,true);
 		$isrc_list=array();
@@ -282,11 +282,8 @@ class Info
      * @param bool $is_playlist Is playlist
      * @return array
      */
-    public static function prepare_metadata($track, $album, $is_playlist = false)
+    public static function prepare_metadata(array $track, array $album, $is_playlist = false)
     {
-        if (!is_array($track) || !is_array($album))
-            throw new InvalidArgumentException('Track info or album info not array');
-
         $track['artist'] = $track['artist']['name'];
         if (!$is_playlist)
         {
@@ -321,7 +318,7 @@ class Info
      * @return array Metadata
      * @throws TidalError
      */
-    public function track_metadata($track, $playlist = false)
+    public function track_metadata(string $track, $playlist = false)
     {
         $track_info = $this->track($track);
         $album_info = $this->album($track_info['album']['id']);

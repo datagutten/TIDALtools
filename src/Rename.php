@@ -73,7 +73,7 @@ class Rename extends Info
      * @return array File name and metadata
      * @throws TidalError
      */
-    function track_file($track, $extension='')
+    function track_file(string $track, $extension='')
     {
         $metadata = Info::track_metadata($track);
         $file = AudioMetadata::build_file_name($metadata, $extension);
@@ -90,7 +90,7 @@ class Rename extends Info
      * @throws Exception Error writing metadata
      * @return string Renamed file
      */
-    public function rename($file, $track, $album = [])
+    public function rename(string $file, $track, $album = [])
     {
         if(!is_array($track))
             $track = Info::track_metadata($track);
