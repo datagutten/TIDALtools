@@ -98,7 +98,7 @@ class Rename extends Info
         {
             if(is_array($track['artist'])) //Data from TIDAL
             {
-                if(!empty($album))
+                if(empty($album))
                     $album = $this->album($track['album']['id']);
 
                 $track = self::prepare_metadata($track, $album);
