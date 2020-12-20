@@ -2,3 +2,7 @@ vendor
 config.php
 tests/sample_data
 tests/*.exe
+coverage_html
+clover.xml
+.phpunit.result.cache
+.idea
