@@ -4,10 +4,11 @@
 namespace datagutten\Tidal\elements;
 
 
+use ArrayAccess;
 use datagutten\Tidal\Info;
 use RuntimeException;
 
-abstract class Element
+abstract class Element implements ArrayAccess
 {
     /**
      * @var Info
@@ -30,5 +31,25 @@ abstract class Element
                 throw new RuntimeException(sprintf('Field %s not found in data', $field));
             $this->$field = $data[$field];
         }
+    }
+
+    public function offsetExists($offset)
+    {
+        return empty($this->$offset);
+    }
+
+    public function offsetGet($offset)
+    {
+        return $this->$offset;
+    }
+
+    public function offsetSet($offset, $value)
+    {
+        $this->$offset = $value;
+    }
+
+    public function offsetUnset($offset)
+    {
+        unset($this->$offset);
     }
 }
