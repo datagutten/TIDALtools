@@ -200,7 +200,7 @@ class Info
 			$field='tracks';
 		else
 			$field='';
-		$id=$this->get_id($album,'album');
+		$id=self::get_id($album,'album');
 		return $this->api_request('albums',$id,$field);
 	}
 
@@ -212,7 +212,7 @@ class Info
      */
 	function track(string $track)
 	{
-		$id=$this->get_id($track,'track');
+		$id=self::get_id($track,'track');
 		return $this->api_request('tracks',$id,'');
 	}
 
