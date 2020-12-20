@@ -119,7 +119,7 @@ class SearchTest extends TestCase
     {
         $match = $this->tidal->search_track_verify('Neste Sommer', ['TIX']);
         $this->assertNotFalse($match);
-        $this->assertEquals('Tix', $match['artist']['name']);
+        $this->assertEquals('TIX', $match['artist']['name']);
         $this->assertEquals('Neste Sommer', $match['title']);
     }
 
