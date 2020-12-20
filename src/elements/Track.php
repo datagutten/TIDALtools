@@ -9,6 +9,11 @@ use datagutten\Tidal\Info;
 class Track extends Element
 {
     protected $fields = ['id', 'title', 'duration', 'trackNumber', 'volumeNumber', 'url', 'isrc'];
+
+    /**
+     * @var static Track title
+     */
+    public $title;
     /**
      * @var int Track duration in seconds
      */
@@ -48,7 +53,7 @@ class Track extends Element
         $this->album_id = $data['album']['id'];
         foreach ($data['artists'] as $artist)
         {
-            $this->artists[] = new Artist($artist, $tidal);
+            $this->artists[] = new static::$artist_class($artist, $tidal);
         }
     }
 
