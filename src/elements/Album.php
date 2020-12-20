@@ -73,12 +73,12 @@ class Album extends Element
         $tracks = $this->tidal->album($this->id, true);
         foreach ($tracks['items'] as $track)
         {
-            $this->tracks[] = new Track($track, $tidal);
+            $this->tracks[] = new static::$track_class($track, $tidal);
         }
 
         foreach ($data['artists'] as $artist)
         {
-            $this->artists[] = new Artist($artist, $tidal);
+            $this->artists[] = new static::$artist_class($artist, $tidal);
         }
     }
 
@@ -91,6 +91,6 @@ class Album extends Element
     {
         $tidal = new Info();
         $track = $tidal->album($id_or_url);
-        return new self($track, $tidal);
+        return new static($track, $tidal);
     }
 }

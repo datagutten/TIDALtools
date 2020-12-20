@@ -56,6 +56,6 @@ class Track extends Element
     {
         $tidal = new Info();
         $track = $tidal->track($track_id_or_url);
-        return new self($track);
+        return new static($track);
     }
 }

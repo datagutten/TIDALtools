@@ -27,7 +27,7 @@ class Artist extends Element
     {
         $tidal = new Info();
         $artist = $tidal->artist($id_or_url);
-        return new self($artist, $tidal);
+        return new static($artist, $tidal);
     }
 
     /**
