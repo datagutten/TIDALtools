@@ -15,6 +15,10 @@ abstract class Element implements ArrayAccess
      */
     public $tidal;
     protected $fields = [];
+    /**
+     * @var array Original array from TIDAL
+     */
+    public $data;
     protected static $track_class = Track::class;
     protected static $album_class = Album::class;
     protected static $artist_class = Artist::class;
@@ -23,6 +27,7 @@ abstract class Element implements ArrayAccess
 
     public function __construct(array $data, Info $tidal = null)
     {
+        $this->data = $data;
         if (!empty($tidal))
             $this->tidal = $tidal;
         else
