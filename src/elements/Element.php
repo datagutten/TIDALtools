@@ -15,6 +15,7 @@ abstract class Element implements ArrayAccess
      */
     public $tidal;
     protected $fields = [];
+    protected static array $optional_fields = [];
     /**
      * @var array Original array from TIDAL
      */
@@ -36,7 +37,12 @@ abstract class Element implements ArrayAccess
         foreach ($this->fields as $field)
         {
             if (!isset($data[$field]))
-                throw new RuntimeException(sprintf('Field %s not found in data', $field));
+            {
+                if (array_search($field, static::$optional_fields) === false)
+                    throw new RuntimeException(sprintf('Field %s not found in data', $field));
+                else
+                    continue;
+            }
             $this->$field = $data[$field];
         }
     }
