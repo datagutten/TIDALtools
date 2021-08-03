@@ -46,6 +46,10 @@ class Track extends Element
      * @var Artist[] Track artists
      */
     public array $artists;
+    /**
+     * @var Album Album object
+     */
+    public Album $album;
 
     public function __construct($data, Info $tidal = null)
     {

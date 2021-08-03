@@ -78,7 +78,9 @@ class Album extends Element
 
         foreach ($tracks['items'] as $track)
         {
-            $this->tracks[] = new static::$track_class($track, $tidal);
+            $track_obj = new static::$track_class($track, $tidal);
+            $track_obj->album = $this;
+            $this->tracks[] = $track_obj;
         }
 
         foreach ($album['artists'] as $artist)
