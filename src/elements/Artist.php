@@ -4,12 +4,11 @@
 namespace datagutten\Tidal\elements;
 
 
-use datagutten\Tidal\Info;
 use datagutten\Tidal\TidalError;
 
 class Artist extends Element
 {
-    protected $fields = ['id', 'name', 'type'];
+    protected array $fields = ['id', 'name', 'type'];
     protected static array $optional_fields = ['type'];
     /**
      * @var int Artist ID

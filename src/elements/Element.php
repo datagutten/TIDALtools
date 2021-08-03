@@ -14,7 +14,7 @@ abstract class Element implements ArrayAccess
      * @var Info
      */
     public $tidal;
-    protected $fields = [];
+    protected array $fields = [];
     protected static array $optional_fields = [];
     /**
      * @var array Original array from TIDAL
