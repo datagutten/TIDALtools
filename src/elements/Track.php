@@ -8,44 +8,44 @@ use datagutten\Tidal\Info;
 
 class Track extends Element
 {
-    protected $fields = ['id', 'title', 'duration', 'trackNumber', 'volumeNumber', 'url', 'isrc'];
+    protected array $fields = ['id', 'title', 'duration', 'trackNumber', 'volumeNumber', 'url', 'isrc'];
 
     /**
-     * @var static Track title
+     * @var string Track title
      */
-    public $title;
+    public string $title;
     /**
      * @var int Track duration in seconds
      */
-    public $duration;
+    public int $duration;
     /**
      * @var int Track number
      */
-    public $trackNumber;
+    public int $trackNumber;
     /**
      * @var int Volume number
      */
-    public $volumeNumber;
+    public int $volumeNumber;
     /**
      * @var string Track ISRC
      */
-    public $isrc;
+    public string $isrc;
     /**
      * @var string Track URL
      */
-    public $url;
+    public string $url;
     /**
      * @var int Track ID
      */
-    public $id;
+    public int $id;
     /**
      * @var int Album ID
      */
-    public $album_id;
+    public int $album_id;
     /**
      * @var Artist[] Track artists
      */
-    public $artists;
+    public array $artists;
 
     public function __construct($data, Info $tidal = null)
     {

@@ -9,62 +9,62 @@ use datagutten\Tidal\TidalError;
 
 class Album extends Element
 {
-    protected $fields = [
+    protected array $fields = [
         'id', 'title', 'duration', 'numberOfTracks', 'numberOfVolumes',
         'releaseDate', 'copyright', 'type', 'url', 'cover', 'upc'
     ];
     /**
      * @var int Album ID
      */
-    public $id;
+    public int $id;
     /**
      * @var string Album title
      */
-    public $title;
+    public string $title;
     /**
      * @var int Album duration in seconds
      */
-    public $duration;
+    public int $duration;
     /**
      * @var int Number of tracks
      */
-    public $numberOfTracks;
+    public int $numberOfTracks;
     /**
      * @var int Number of volumes
      */
-    public $numberOfVolumes;
+    public int $numberOfVolumes;
     /**
      * @var string Album release date as Y-m-d format
      */
-    public $releaseDate;
+    public string $releaseDate;
     /**
      * @var string Copyright
      */
-    public $copyright;
+    public string $copyright;
     /**
      * @var string Type
      */
-    public $type;
+    public string $type;
     /**
      * @var string Album URL
      */
-    public $url;
+    public string $url;
     /**
      * @var string Album cover URL
      */
-    public $cover;
+    public string $cover;
     /**
      * @var string Album UPC
      */
-    public $upc;
+    public string $upc;
     /**
      * @var Artist[] Album artists
      */
-    public $artists;
+    public array $artists;
     /**
      * @var Track[] Album tracks
      */
-    public $tracks;
+    public array $tracks;
 
     /**
      * Album constructor.
