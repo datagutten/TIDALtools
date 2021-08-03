@@ -6,6 +6,11 @@ use datagutten\Tidal\elements;
 
 class Tidal
 {
+    //Override in child class to use other elements classes
+    protected static string $track_class = elements\Track::class;
+    protected static string $album_class = elements\Album::class;
+    protected static string $artist_class = elements\Artist::class;
+
     /**
      * @var Info Info class
      */
@@ -30,7 +35,7 @@ class Tidal
     {
         $album = $this->info->album($id);
         $tracks = $this->info->album($id, true);
-        return new elements\Album($album, $tracks, $this->info);
+        return new static::$album_class($album, $tracks, $this->info);
     }
 
     /**
@@ -42,7 +47,7 @@ class Tidal
     public function artist(string $id): elements\Artist
     {
         $artist = $this->info->artist($id);
-        return new elements\Artist([
+        return new static::$artist_class([
             'name' => $artist['title'],
             'id' => $artist['id']
         ], $this->info);
@@ -57,6 +62,6 @@ class Tidal
     public function track(string $id): elements\Track
     {
         $track = $this->info->track($id);
-        return new elements\Track($track, $this->info);
+        return new static::$track_class($track, $this->info);
     }
 }
