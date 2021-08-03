@@ -10,6 +10,7 @@ use datagutten\Tidal\TidalError;
 class Artist extends Element
 {
     protected $fields = ['id', 'name', 'type'];
+    protected static array $optional_fields = ['type'];
     /**
      * @var int Artist ID
      */
@@ -22,13 +23,6 @@ class Artist extends Element
      * @var string Artist relation type
      */
     public $type;
-
-    public static function from_tidal(string $id_or_url)
-    {
-        $tidal = new Info();
-        $artist = $tidal->artist($id_or_url);
-        return new static($artist, $tidal);
-    }
 
     /**
      * @return array

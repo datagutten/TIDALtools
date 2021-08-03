@@ -56,11 +56,4 @@ class Track extends Element
             $this->artists[] = new static::$artist_class($artist, $tidal);
         }
     }
-
-    public static function from_tidal(string $track_id_or_url)
-    {
-        $tidal = new Info();
-        $track = $tidal->track($track_id_or_url);
-        return new static($track);
-    }
 }

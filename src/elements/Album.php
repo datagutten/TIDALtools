@@ -68,36 +68,23 @@ class Album extends Element
 
     /**
      * Album constructor.
-     * @param array $data
-     * @param Info|null $tidal
+     * @param array $album
+     * @param array|null $tracks
      * @throws TidalError
      */
-    public function __construct(array $data, Info $tidal = null)
+    public function __construct(array $album, array $tracks = null, Info $tidal = null)
     {
-        parent::__construct($data, new Info());
+        parent::__construct($album, $tidal);
 
-        $tracks = $this->tidal->album($this->id, true);
         foreach ($tracks['items'] as $track)
         {
             $this->tracks[] = new static::$track_class($track, $tidal);
         }
 
-        foreach ($data['artists'] as $artist)
+        foreach ($album['artists'] as $artist)
         {
             $this->artists[] = new static::$artist_class($artist, $tidal);
         }
-    }
-
-    /**
-     * @param string $id_or_url
-     * @return Album
-     * @throws TidalError
-     */
-    public static function from_tidal(string $id_or_url)
-    {
-        $tidal = new Info();
-        $track = $tidal->album($id_or_url);
-        return new static($track, $tidal);
     }
 
     /**

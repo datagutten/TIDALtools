@@ -24,8 +24,6 @@ abstract class Element implements ArrayAccess
     protected static $album_class = Album::class;
     protected static $artist_class = Artist::class;
 
-    abstract public static function from_tidal(string $id_or_url);
-
     public function __construct(array $data, Info $tidal = null)
     {
         $this->data = $data;
