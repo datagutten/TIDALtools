@@ -66,6 +66,12 @@ class Album extends Element
      */
     public $tracks;
 
+    /**
+     * Album constructor.
+     * @param array $data
+     * @param Info|null $tidal
+     * @throws TidalError
+     */
     public function __construct(array $data, Info $tidal = null)
     {
         parent::__construct($data, new Info());
@@ -92,5 +98,21 @@ class Album extends Element
         $tidal = new Info();
         $track = $tidal->album($id_or_url);
         return new static($track, $tidal);
+    }
+
+    /**
+     * Get track from album
+     * @param int $track_number Track number
+     * @param int $medium Medium number
+     * @return Track|null
+     */
+    public function get_track(int $track_number, int $medium=1): ?Track
+    {
+        foreach ($this->tracks as $track)
+        {
+            if($track->trackNumber==$track_number && $track->volumeNumber==$medium)
+                return $track;
+        }
+        return null;
     }
 }
