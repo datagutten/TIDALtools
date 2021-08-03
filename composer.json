@@ -4,7 +4,7 @@
   "license": "GPL-3.0-or-later",
   "type": "library",
   "require": {
-    "php": ">=7.1",
+    "php": ">=7.4",
     "ext-json": "*",
     "rmccue/requests": "^1.0",
     "datagutten/audio-metadata": "^3.0",
