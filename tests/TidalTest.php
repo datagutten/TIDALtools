@@ -1,8 +1,8 @@
 <?php
 
+use datagutten\Tidal\elements;
 use datagutten\Tidal\Tidal;
 use PHPUnit\Framework\TestCase;
-use datagutten\Tidal\elements;
 
 class TidalTest extends TestCase
 {
@@ -34,5 +34,13 @@ class TidalTest extends TestCase
         $track = $this->tidal->track('https://tidal.com/browse/track/36107303');
         $this->assertInstanceOf(elements\Track::class, $track);
         $this->assertEquals('Bad Party', $track->title);
+    }
+
+    public function testArtistAlbums()
+    {
+        $artist = $this->tidal->artist('https://tidal.com/browse/artist/7679202');
+        $albums = $artist->albums();
+        $this->assertInstanceOf(elements\Album::class, $albums[0]);
+        $this->assertInstanceOf(elements\Track::class, $albums[0]->tracks[0]);
     }
 }

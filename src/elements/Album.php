@@ -70,11 +70,16 @@ class Album extends Element
      * Album constructor.
      * @param array $album
      * @param array|null $tracks
+     * @param Info|null $tidal
      * @throws TidalError
      */
     public function __construct(array $album, array $tracks = null, Info $tidal = null)
     {
         parent::__construct($album, $tidal);
+        if(empty($tracks))
+        {
+            $tracks = $tidal->album($this->id, true);
+        }
 
         foreach ($tracks['items'] as $track)
         {

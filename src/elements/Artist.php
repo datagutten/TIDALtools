@@ -8,8 +8,8 @@ use datagutten\Tidal\TidalError;
 
 class Artist extends Element
 {
-    protected array $fields = ['id', 'name', 'type'];
-    protected static array $optional_fields = ['type'];
+    protected array $fields = ['id', 'name', 'type', 'url'];
+    protected static array $optional_fields = ['type', 'url'];
     /**
      * @var int Artist ID
      */
@@ -22,13 +22,23 @@ class Artist extends Element
      * @var string Artist relation type
      */
     public $type;
+    /**
+     * @var string URL to artist page
+     */
+    public string $url;
 
     /**
-     * @return array
+     * @return Album[]
      * @throws TidalError
      */
-    public function albums()
+    public function albums(): array
     {
-        return $this->tidal->artist_albums($this->id);
+        $album_objs = [];
+        $albums = $this->tidal->artist_albums($this->url);
+        foreach ($albums['items'] as $album)
+        {
+            $album_objs[] = new Album($album, null, $this->tidal);
+        }
+        return $album_objs;
     }
 }

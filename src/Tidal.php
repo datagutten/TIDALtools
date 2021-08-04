@@ -10,6 +10,7 @@ class Tidal
     protected static string $track_class = elements\Track::class;
     protected static string $album_class = elements\Album::class;
     protected static string $artist_class = elements\Artist::class;
+    protected static string $element_class = elements\Element::class;
 
     /**
      * @var Info Info class
@@ -46,10 +47,16 @@ class Tidal
      */
     public function artist(string $id): elements\Artist
     {
+        if (substr($id, 0, 4) == 'http')
+            $url = $id;
+        else
+            $url = sprintf('https://tidal.com/browse/artist/%s', $id);
+
         $artist = $this->info->artist($id);
         return new static::$artist_class([
             'name' => $artist['title'],
-            'id' => $artist['id']
+            'id' => $artist['id'],
+            'url' => $url,
         ], $this->info);
     }
 

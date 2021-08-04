@@ -2,6 +2,7 @@
 
 
 namespace datagutten\Tidal;
+use datagutten\Tidal\elements\Album;
 use InvalidArgumentException;
 use Requests;
 use Requests_Exception;
@@ -248,10 +249,10 @@ class Info
     /**
      * Get artist albums
      * @param string $artist Artist ID or URL
-     * @return array Artist albums
+     * @return Album[] Artist albums
      * @throws TidalError
      */
-    function artist_albums(string $artist)
+    function artist_albums(string $artist): array
     {
         $artist = self::get_id($artist);
         return $this->api_request('artists', $artist, 'albums');
