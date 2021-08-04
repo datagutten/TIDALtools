@@ -3,6 +3,7 @@
 
 namespace datagutten\Tidal;
 use datagutten\AudioMetadata\AudioMetadata;
+use datagutten\tools\files\files;
 use Exception;
 use InvalidArgumentException;
 
@@ -78,7 +79,7 @@ class Rename extends Info
         $metadata = Info::track_metadata($track);
         $file = AudioMetadata::build_file_name($metadata, $extension);
         $folder = AudioMetadata::build_directory_name($metadata, $extension);
-        $file = sprintf('%s/%s/%s', $this->output_path, $folder, $file);
+        $file = files::path_join($this->output_path, $folder, $file);
         return [$file, $metadata];
     }
 
