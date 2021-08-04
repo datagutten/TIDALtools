@@ -97,7 +97,7 @@ class SearchTest extends TestCase
         $this->assertNotFalse($match);
         $artists = implode(', ', array_column($match['artists'], 'name'));
         $this->assertEquals('Chris Brown, Justin Bieber, Ink', $artists);
-        $this->assertEquals('Don\'t Check On Me', $match['title']);
+        $this->assertEquals("Don't Check On Me (feat. Justin Bieber & Ink)", $match['title']);
     }
 
     /**
