@@ -27,8 +27,11 @@ class RenameTest extends TestCase
         $this->sample_dir = __DIR__.'/sample_data';
         $this->filesystem = new Filesystem();
         if(!file_exists($this->sample_dir.'/test.flac'))
+        {
+            mkdir($this->sample_dir);
             Requests::get('http://techslides.com/demos/samples/sample.flac', [],
-                ['filename'=>$this->sample_dir.'/test.flac']);
+                ['filename' => $this->sample_dir . '/test.flac']);
+        }
     }
     /**
      * @throws tidal\TidalError
