@@ -47,10 +47,18 @@ class Info
 
         $options['useragent'] = $this->useragent;
 
-        if(empty($post_data))
-            $response = Requests::get($url, $headers, $options);
-        else
-            $response = Requests::post($url, $headers, $post_data, $options);
+        try
+        {
+            if (empty($post_data))
+                $response = Requests::get($url, $headers, $options);
+            else
+                $response = Requests::post($url, $headers, $post_data, $options);
+        }
+        /** @noinspection PhpRedundantCatchClauseInspection */
+        catch (Requests_Exception $e)
+        {
+            throw new TidalError('HTTP request error: ' . $e->getMessage(), 0, $e);
+        }
 
 		if($response->status_code>=400 && $response->status_code<=499)
 			$this->parse_response($response->body);
