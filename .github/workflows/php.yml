@@ -51,7 +51,7 @@ jobs:
 
       - name: Install Choco packages
         if: matrix.os == 'windows-latest'
-        run: choco -r -y install ffmpeg atomicparsley flac
+        run: choco install ffmpeg atomicparsley flac
 
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress
