@@ -32,11 +32,15 @@ class Tidal
      * @return elements\Album Album object
      * @throws TidalError
      */
-    public function album(string $id): elements\Album
+    public function album(string $id, bool $tracks = true): elements\Album
     {
         $album = $this->info->album($id);
-        $tracks = $this->info->album($id, true);
-        return new static::$album_class($album, $tracks, $this->info);
+        if ($tracks)
+            $tracks = $this->info->album($id, true);
+        else
+            $tracks = null;
+
+        return new static::$album_class($album, $tracks ?? null, $this->info);
     }
 
     /**
