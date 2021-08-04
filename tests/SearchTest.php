@@ -14,24 +14,12 @@ class SearchTest extends TestCase
     public $tidal;
 
     /**
-     * SearchTest constructor.
-     * @param null $name
-     * @param array $data
-     * @param string $dataName
+     * @throws TidalError
      */
-    public function __construct($name = null, array $data = [], $dataName = '')
-    {
-        parent::__construct($name, $data, $dataName);
-        try {
-            $this->token = Search::get_token();
-        }
-        catch (TidalError $e)
-        {
-            $this->fail($e->getMessage());
-        }
-    }
     public function setUp(): void
     {
+        if(empty($this->token))
+            $this->token = Search::get_token();
         $this->tidal = new Search();
         $this->tidal->token = $this->token;
     }
