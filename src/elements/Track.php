@@ -8,7 +8,7 @@ use datagutten\Tidal\Info;
 
 class Track extends Element
 {
-    protected array $fields = ['id', 'title', 'duration', 'trackNumber', 'volumeNumber', 'url', 'isrc'];
+    protected array $fields = ['id', 'title', 'duration', 'trackNumber', 'volumeNumber', 'url', 'isrc', 'copyright', 'audioQuality'];
 
     /**
      * @var string Track title
@@ -50,6 +50,14 @@ class Track extends Element
      * @var Album Album object
      */
     public Album $album;
+    /**
+     * @var string Copyright string
+     */
+    public string $copyright;
+    /**
+     * @var string Audio quality
+     */
+    public string $audioQuality;
 
     public function __construct($data, Info $tidal = null)
     {
