@@ -44,7 +44,24 @@ class RenameTest extends TestCase
         $pathinfo = pathinfo($file);
 
         $this->assertEquals('09 Det finnes bare vi.flac', $pathinfo['basename']);
-        if(PHP_OS=='WINNT')
+        if (PHP_OS == 'WINNT')
+            $this->assertStringContainsString(utf8_decode('No. 4 - Hva nå (2017) FLAC'), $pathinfo['dirname']);
+        else
+            $this->assertStringContainsString('No. 4 - Hva nå (2017) FLAC', $pathinfo['dirname']);
+    }
+
+    public function testFileName2()
+    {
+        $tidal2 = new Tidal\Tidal();
+        $track = $tidal2->track('https://tidal.com/browse/track/80219173');
+        $track->getAlbum();
+        $tidal = new Tidal\Rename($this->config);
+        $tidal->token = Tidal\Info::get_token();
+        list($file) = $track->file('flac');
+        $pathinfo = pathinfo($file);
+
+        $this->assertEquals('09 Det finnes bare vi.flac', $pathinfo['basename']);
+        if (PHP_OS == 'WINNT')
             $this->assertStringContainsString(utf8_decode('No. 4 - Hva nå (2017) FLAC'), $pathinfo['dirname']);
         else
             $this->assertStringContainsString('No. 4 - Hva nå (2017) FLAC', $pathinfo['dirname']);
@@ -55,8 +72,8 @@ class RenameTest extends TestCase
      */
     public function testRename()
     {
-        $tidal= new Tidal\Rename($this->config);
-        $file = $tidal->rename($this->sample_dir.'/test.flac', 'https://tidal.com/browse/track/19226925');
+        $tidal = new Tidal\Rename($this->config);
+        $file = $tidal->rename($this->sample_dir . '/test.flac', 'https://tidal.com/browse/track/19226925');
         $this->assertFileExists($file);
     }
 
