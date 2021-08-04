@@ -113,4 +113,13 @@ class Album extends Element
         }
         return null;
     }
+
+    /**
+     * Get artist names as combined string
+     * @return string
+     */
+    public function artist(): string
+    {
+        return self::artistString($this->artists);
+    }
 }

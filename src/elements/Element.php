@@ -45,6 +45,37 @@ abstract class Element implements ArrayAccess
         }
     }
 
+    /**
+     * Convert an array of artists to a single string
+     * @param Artist[] $artists
+     * @return string
+     */
+    public static function artistString(array $artists): string
+    {
+        if (count($artists) == 1)
+            return $artists[0]->name;
+
+        $artist_string = '';
+        $first_featured = true;
+        foreach ($artists as $artist)
+        {
+            if ($artist->type == 'MAIN')
+                $artist_string .= $artist->name;
+            elseif ($artist->type == 'FEATURED')
+            {
+                if ($first_featured)
+                {
+                    $artist_string .= ' feat. ';
+                    $first_featured = false;
+                }
+                else
+                    $artist_string .= ' & ';
+                $artist_string .= $artist->name;
+            }
+        }
+        return $artist_string;
+    }
+
     public function offsetExists($offset)
     {
         return empty($this->$offset);

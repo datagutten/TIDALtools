@@ -60,4 +60,13 @@ class Track extends Element
             $this->artists[] = new static::$artist_class($artist, $tidal);
         }
     }
+
+    /**
+     * Get artist names as combined string
+     * @return string
+     */
+    public function artist(): string
+    {
+        return self::artistString($this->artists);
+    }
 }
