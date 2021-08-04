@@ -44,7 +44,10 @@ class RenameTest extends TestCase
         $pathinfo = pathinfo($file);
 
         $this->assertEquals('09 Det finnes bare vi.flac', $pathinfo['basename']);
-        $this->assertStringContainsString('No. 4 - Hva nå (2017) FLAC', $pathinfo['dirname']);
+        if(PHP_OS=='WINNT')
+            $this->assertStringContainsString(utf8_decode('No. 4 - Hva nå (2017) FLAC'), $pathinfo['dirname']);
+        else
+            $this->assertStringContainsString('No. 4 - Hva nå (2017) FLAC', $pathinfo['dirname']);
     }
 
     /**
