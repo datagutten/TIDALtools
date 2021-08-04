@@ -28,21 +28,14 @@ jobs:
           coverage: xdebug
           extensions: curl
 
-      - name: Determine composer cache directory on Linux
-        if: matrix.os == 'ubuntu-latest'
-        run: echo "::set-env name=COMPOSER_CACHE_DIR::$(composer config cache-dir)"
-
-      - name: Determine composer cache directory on Windows
-        if: matrix.os == 'windows-latest'
-        run: ECHO "::set-env name=COMPOSER_CACHE_DIR::~\AppData\Local\Composer"
-
-      - name: Cache dependencies installed with composer
+      - name: Cache Composer packages
+        id: composer-cache
         uses: actions/cache@v2
         with:
-          path: ${{ env.COMPOSER_CACHE_DIR }}
-          key: php${{ matrix.php-version }}-composer-${{ matrix.dependencies }}-${{ hashFiles('**/composer.json') }}
+          path: vendor
+          key: ${{ runner.os }}-php${{ matrix.php }}-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
-            php${{ matrix.php-version }}-composer-${{ matrix.dependencies }}-
+            ${{ runner.os }}-php${{ matrix.php }}-
 
       - name: Install lowest dependencies with composer
         if: matrix.dependencies == 'lowest'
