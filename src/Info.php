@@ -290,6 +290,7 @@ class Info
      * @param array $album Return value from Info::Album or Info::playlist
      * @param bool $is_playlist Is playlist
      * @return array
+     * @deprecated Use metadata method in Track object
      */
     public static function prepare_metadata(array $track, array $album, $is_playlist = false)
     {
@@ -326,6 +327,7 @@ class Info
      * @param bool $playlist Part of a playlist
      * @return array Metadata
      * @throws TidalError
+     * @deprecated Use metadata method in Track
      */
     public function track_metadata(string $track, $playlist = false)
     {
