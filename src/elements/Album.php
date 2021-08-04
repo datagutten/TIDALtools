@@ -76,21 +76,25 @@ class Album extends Element
     public function __construct(array $album, array $tracks = null, Info $tidal = null)
     {
         parent::__construct($album, $tidal);
-        if(empty($tracks))
-        {
-            $tracks = $tidal->album($this->id, true);
-        }
-
-        foreach ($tracks['items'] as $track)
-        {
-            $track_obj = new static::$track_class($track, $tidal);
-            $track_obj->album = $this;
-            $this->tracks[] = $track_obj;
-        }
+        if (!empty($tracks))
+            $this->get_tracks($tracks);
 
         foreach ($album['artists'] as $artist)
         {
             $this->artists[] = new static::$artist_class($artist, $tidal);
+        }
+    }
+
+    public function get_tracks($tracks = null)
+    {
+        if (empty($tracks))
+            $tracks = $this->tidal->album($this->id, true);
+
+        foreach ($tracks['items'] as $track)
+        {
+            $track_obj = new static::$track_class($track, $this->tidal);
+            $track_obj->album = $this;
+            $this->tracks[] = $track_obj;
         }
     }
 
@@ -100,11 +104,11 @@ class Album extends Element
      * @param int $medium Medium number
      * @return Track|null
      */
-    public function get_track(int $track_number, int $medium=1): ?Track
+    public function get_track(int $track_number, int $medium = 1): ?Track
     {
         foreach ($this->tracks as $track)
         {
-            if($track->trackNumber==$track_number && $track->volumeNumber==$medium)
+            if ($track->trackNumber == $track_number && $track->volumeNumber == $medium)
                 return $track;
         }
         return null;
