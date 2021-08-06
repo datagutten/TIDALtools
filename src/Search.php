@@ -30,6 +30,7 @@ class Search extends Info
      * @param int $limit Limit for first query
      * @return array Search results
      * @throws TidalError
+     * @deprecated Use search_tracks
      */
     function search_track(string $search, $limit = 60)
     {
@@ -45,6 +46,7 @@ class Search extends Info
      * @param $search
      * @return array
      * @throws TidalError
+     * @deprecated Use search_albums
      */
     function search_album($search)
     {
