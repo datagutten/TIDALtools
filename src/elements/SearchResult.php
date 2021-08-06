@@ -12,11 +12,11 @@ class SearchResult extends SimpleArrayAccess
     /**
      * @var Album[] Album search results
      */
-    public array $albums;
+    public array $albums = [];
     /**
      * @var Track[] Track search results
      */
-    public array $tracks;
+    public array $tracks = [];
 
     /**
      * @var int Search result limit
