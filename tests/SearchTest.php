@@ -1,6 +1,7 @@
 <?php
 //declare(strict_types=1);
 
+use datagutten\Tidal\elements\Album;
 use datagutten\Tidal\Search;
 use datagutten\Tidal\TidalError;
 use PHPUnit\Framework\TestCase;
@@ -53,11 +54,36 @@ class SearchTest extends TestCase
     /**
      * @throws TidalError
      */
+    public function testSearchTracks()
+    {
+        $result = $this->tidal->search_tracks('lite og stort');
+        $this->assertGreaterThan(0, $result->totalNumberOfItems);
+        $this->assertEquals('Lite og stort', $result->tracks[0]->title);
+    }
+
+    /**
+     * @throws TidalError
+     */
+    public function testSearchAlbums()
+    {
+        $result = $this->tidal->search_albums('Hva nå', 5);
+        $this->assertGreaterThan(5, $result->totalNumberOfItems);
+        $this->assertInstanceOf(Album::class, $result->albums[0]);
+        $this->assertEquals('Hva nå', $result->albums[0]->title);
+        $this->assertCount(5, $result->albums);
+        $result->next(5);
+        $this->assertCount(10, $result->albums);
+    }
+
+    /**
+     * @throws TidalError
+     */
     public function testVerifySearch()
     {
         $search = $this->tidal->search_track('lite og stort');
         $match = false;
-        foreach ($search['items'] as $result) {
+        foreach ($search['items'] as $result)
+        {
             $match = $this->tidal->verify_search($result, 'Lite og stort', ['No. 4']);
             if($match!==false)
                 break;

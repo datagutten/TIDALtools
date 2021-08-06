@@ -2,6 +2,7 @@
 
 
 namespace datagutten\Tidal;
+use datagutten\Tidal\elements\SearchResult;
 use InvalidArgumentException;
 
 
@@ -17,12 +18,12 @@ class Search extends Info
      * @param string $title "Kem Kan Eg Ringe (feat. Store P & Lars Vaular)"
      * @return string "Kem Kan Eg Ringe"
      */
-	public static function remove_featured(string $title)
-	{
+    public static function remove_featured(string $title)
+    {
         $title=preg_replace('/(.+) \(?feat.+/i','$1', $title);
         $title=preg_replace('/(.+) \(?with.+/i','$1',$title);
         return $title;
-	}
+    }
 
     /**
      * @param string $search Search string
@@ -30,25 +31,49 @@ class Search extends Info
      * @return array Search results
      * @throws TidalError
      */
-	function search_track(string $search, $limit = 60)
-	{
+    function search_track(string $search, $limit = 60)
+    {
         $matches=$this->api_request('search','tracks','',sprintf('&limit=%d&query=%s',$limit ,urlencode($search)));
         if($matches['totalNumberOfItems']>60)
         {
             $matches=$this->api_request('search','tracks','',sprintf('&limit=%d&query=%s',$matches['totalNumberOfItems'],urlencode($search)));
         }
         return $matches;
-	}
+    }
 
     /**
      * @param $search
      * @return array
      * @throws TidalError
      */
-	function search_album($search)
-	{
-		return $this->api_request('search','albums','','&limit=20&query='.urlencode($search));
-	}
+    function search_album($search)
+    {
+        return $this->api_request('search', 'albums', '', '&limit=20&query=' . urlencode($search));
+    }
+
+    /**
+     * Search for tracks
+     * @param string $query Search query
+     * @param int $limit Result limit
+     * @return SearchResult
+     * @throws TidalError
+     */
+    public function search_tracks(string $query, int $limit = 60): SearchResult
+    {
+        return new SearchResult($this, 'tracks', $query, $limit);
+    }
+
+    /**
+     * Search for albums
+     * @param string $query Search query
+     * @param int $limit Result limit
+     * @return SearchResult
+     * @throws TidalError
+     */
+    public function search_albums(string $query, int $limit = 20): SearchResult
+    {
+        return new SearchResult($this, 'albums', $query, $limit);
+    }
 
     /**
      * Try to find the correct search result
@@ -58,7 +83,7 @@ class Search extends Info
      * @param string $requested_artists_string Requested artists as string
      * @return bool|array Return false if track is not found, else return value of argument $match
      */
-	function verify_search(array $match, string $title, array $artists, $requested_artists_string='')
+    function verify_search(array $match, string $title, array $artists, $requested_artists_string = '')
     {
         if(isset($match['items']))
             throw new InvalidArgumentException('Argument should be single track, not multiple search results');
