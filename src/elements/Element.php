@@ -4,11 +4,10 @@
 namespace datagutten\Tidal\elements;
 
 
-use ArrayAccess;
 use datagutten\Tidal\Info;
 use RuntimeException;
 
-abstract class Element implements ArrayAccess
+abstract class Element extends SimpleArrayAccess
 {
     /**
      * @var Info
@@ -74,25 +73,5 @@ abstract class Element implements ArrayAccess
             }
         }
         return $artist_string;
-    }
-
-    public function offsetExists($offset)
-    {
-        return empty($this->$offset);
-    }
-
-    public function offsetGet($offset)
-    {
-        return $this->$offset;
-    }
-
-    public function offsetSet($offset, $value)
-    {
-        $this->$offset = $value;
-    }
-
-    public function offsetUnset($offset)
-    {
-        unset($this->$offset);
     }
 }

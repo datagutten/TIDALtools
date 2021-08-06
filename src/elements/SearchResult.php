@@ -6,7 +6,7 @@ use datagutten\Tidal\Search;
 use datagutten\Tidal\TidalError;
 use InvalidArgumentException;
 
-class SearchResult
+class SearchResult extends SimpleArrayAccess
 {
     protected Search $search;
     /**
