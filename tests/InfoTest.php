@@ -195,7 +195,7 @@ class InfoTest extends TestCase
         $albums = $this->tidal->artist_albums('https://tidal.com/browse/artist/5496411');
         $this->assertIsArray($albums);
         $this->assertArrayHasKey('items', $albums);
-        $this->assertEquals('God jul igjen', $albums['items'][0]['title']);
+        $this->assertEquals('God jul igjen', $albums['items'][1]['title']);
     }
 
     /**
