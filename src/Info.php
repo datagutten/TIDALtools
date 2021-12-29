@@ -4,8 +4,7 @@
 namespace datagutten\Tidal;
 use datagutten\Tidal\elements\Album;
 use InvalidArgumentException;
-use Requests;
-use Requests_Exception;
+use WpOrg\Requests;
 
 
 class Info
@@ -50,12 +49,12 @@ class Info
         try
         {
             if (empty($post_data))
-                $response = Requests::get($url, $headers, $options);
+                $response = Requests\Requests::get($url, $headers, $options);
             else
-                $response = Requests::post($url, $headers, $post_data, $options);
+                $response = Requests\Requests::post($url, $headers, $post_data, $options);
         }
         /** @noinspection PhpRedundantCatchClauseInspection */
-        catch (Requests_Exception $e)
+        catch (Requests\Exception $e)
         {
             throw new TidalError('HTTP request error: ' . $e->getMessage(), 0, $e);
         }
@@ -122,10 +121,10 @@ class Info
     {
         try {
             $url = 'https://listen.tidal.com/app.5a3cbbd2c3c151b833cb.chunk.js';
-            $response = Requests::Get($url);
+            $response = Requests\Requests::Get($url);
             $response->throw_for_status();
         }
-        catch (Requests_Exception $e)
+        catch (Requests\Exception $e)
         {
             throw new TidalError($e->getMessage(), 0, $e);
         }

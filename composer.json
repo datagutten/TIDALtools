@@ -6,7 +6,7 @@
   "require": {
     "php": ">=7.4",
     "ext-json": "*",
-    "rmccue/requests": "^1.7|^2.0",
+    "rmccue/requests": "^2.0",
     "datagutten/audio-metadata": "^3.0",
     "datagutten/tools": "^1.8",
     "ext-mbstring": "*"
