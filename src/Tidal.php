@@ -10,6 +10,7 @@ class Tidal
     protected static string $track_class = elements\Track::class;
     protected static string $album_class = elements\Album::class;
     protected static string $artist_class = elements\Artist::class;
+    protected static string $playlist_class = elements\Playlist::class;
     protected static string $element_class = elements\Element::class;
 
     /**
@@ -74,5 +75,17 @@ class Tidal
     {
         $track = $this->info->track($id);
         return new static::$track_class($track, $this->info);
+    }
+
+    /**
+     * Get a playlist
+     * @param string $id Playlist id
+     * @return elements\Playlist Playlist object
+     * @throws TidalError
+     */
+    public function playlist(string $id): elements\Playlist
+    {
+        $playlist = $this->info->playlist($id);
+        return new static::$playlist_class($playlist, $this->info);
     }
 }
