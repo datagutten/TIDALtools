@@ -2,6 +2,7 @@
 
 use datagutten\Tidal;
 use PHPUnit\Framework\TestCase;
+use WpOrg\Requests\Requests;
 
 class InfoTest extends TestCase
 {
