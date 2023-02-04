@@ -5,6 +5,7 @@ use datagutten\Tidal;
 use datagutten\Tidal\TidalError;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Filesystem\Filesystem;
+use WpOrg\Requests\Requests;
 
 
 class RenameTest extends TestCase
