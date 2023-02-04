@@ -165,7 +165,7 @@ class SearchTest extends TestCase
      */
     public function testNotRemix()
     {
-        $track_remix = $this->tidal->track('https://tidal.com/browse/track/87518814');
+        $track_remix = $this->tidal->track('https://tidal.com/browse/track/242599664');
         $match = $this->tidal->verify_search($track_remix, 'I Owe You', ['Joe Hertz', 'Wolfie']);
         $this->assertEquals(false, $match);
     }
