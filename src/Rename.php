@@ -2,7 +2,9 @@
 
 
 namespace datagutten\Tidal;
+
 use datagutten\AudioMetadata\AudioMetadata;
+use datagutten\Tidal\elements;
 use datagutten\tools\files\files;
 use Exception;
 use InvalidArgumentException;
@@ -90,6 +92,7 @@ class Rename extends Info
      * @throws TidalError Error fetching info from TIDAL
      * @throws Exception Error writing metadata
      * @return string Renamed file
+     * @deprecated Use renameTrack with Track object
      */
     public function rename(string $file, $track, $album = [])
     {
@@ -109,4 +112,16 @@ class Rename extends Info
         return AudioMetadata::metadata($file, $this->output_path, $track);
     }
 
+    /**
+     * @param string $file File to be renamed
+     * @param elements\Track $track Track object to be used as metadata
+     * @return string Renamed file
+     * @throws TidalError Error fetching info from TIDAL
+     * @throws Exception Error writing metadata
+     */
+    public function renameTrack(string $file, elements\Track $track): string
+    {
+        $metadata = $track->metadata();
+        return AudioMetadata::metadata($file, $this->output_path, $metadata);
+    }
 }
