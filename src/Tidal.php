@@ -52,6 +52,7 @@ class Tidal
      */
     public function artist(string $id): elements\Artist
     {
+        $id = Info::get_id($id, 'artist');
         if (substr($id, 0, 4) == 'http')
             $url = $id;
         else
@@ -73,19 +74,24 @@ class Tidal
      */
     public function track(string $id): elements\Track
     {
-        $track = $this->info->track($id);
+        $id = Info::get_id($id, 'track');
+        $track = $this->info->api_request('tracks', $id);
         return new static::$track_class($track, $this->info);
     }
 
     /**
      * Get a playlist
-     * @param string $id Playlist id
+     * @param string $id_or_url Playlist id or URL
      * @return elements\Playlist Playlist object
      * @throws TidalError
      */
-    public function playlist(string $id): elements\Playlist
+    public function playlist(string $id_or_url): elements\Playlist
     {
-        $playlist = $this->info->playlist($id);
+        $id = Info::get_id($id_or_url);
+        $playlist_info = $this->info->api_request('playlists', $id);
+        $limit = ceil($playlist_info['numberOfTracks'] / 100) * 100;
+        $playlist_tracks = $this->info->api_request('playlists', $id, 'tracks', "&limit=$limit&orderDirection=ASC");
+        $playlist = array_merge($playlist_info, $playlist_tracks);
         return new static::$playlist_class($playlist, $this->info);
     }
 }

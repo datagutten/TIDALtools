@@ -217,6 +217,7 @@ class Info
      * @param string $track Track ID or URL
      * @return array Information about the track
      * @throws TidalError API request failed
+     * @deprecated Use Tidal::track
      */
 	function track(string $track)
 	{
@@ -229,6 +230,7 @@ class Info
      * @param string $id_or_url Playlist id or URL
      * @return array Information about the playlist
      * @throws TidalError API request failed
+     * @deprecated Use Tidal::playlist
      */
 	function playlist(string $id_or_url)
 	{
@@ -258,6 +260,7 @@ class Info
      * @param string $artist Artist ID or URL
      * @return Album[] Artist albums
      * @throws TidalError
+     * @deprecated Use albums method from Artist class
      */
     function artist_albums(string $artist): array
     {
