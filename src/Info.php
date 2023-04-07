@@ -246,6 +246,7 @@ class Info
      * @param string $artist Artist ID or URL
      * @return array Artist info
      * @throws TidalError
+     * @deprecated Use Tidal::artist
      */
 	function artist(string $artist)
     {

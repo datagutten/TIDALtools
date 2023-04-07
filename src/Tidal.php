@@ -53,17 +53,8 @@ class Tidal
     public function artist(string $id): elements\Artist
     {
         $id = Info::get_id($id, 'artist');
-        if (substr($id, 0, 4) == 'http')
-            $url = $id;
-        else
-            $url = sprintf('https://tidal.com/browse/artist/%s', $id);
-
-        $artist = $this->info->artist($id);
-        return new static::$artist_class([
-            'name' => $artist['title'],
-            'id' => $artist['id'],
-            'url' => $url,
-        ], $this->info);
+        $artist = $this->info->api_request('artists', $id);
+        return new static::$artist_class($artist, $this->info);
     }
 
     /**
