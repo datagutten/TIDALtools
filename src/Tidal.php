@@ -30,18 +30,19 @@ class Tidal
     /**
      * Get album
      * @param string $id Album ID or URL
+     * @param bool $tracks Fetch album tracks
      * @return elements\Album Album object
      * @throws TidalError
      */
     public function album(string $id, bool $tracks = true): elements\Album
     {
-        $album = $this->info->album($id);
+        $id = Info::get_id($id, 'album');
+        $album = $this->info->api_request('albums', $id);
+        /** @var elements\Album $album_obj */
+        $album_obj = new static::$album_class($album, $this->info);
         if ($tracks)
-            $tracks = $this->info->album($id, true);
-        else
-            $tracks = null;
-
-        return new static::$album_class($album, $tracks ?? null, $this->info);
+            $album_obj->get_tracks();
+        return $album_obj;
     }
 
     /**

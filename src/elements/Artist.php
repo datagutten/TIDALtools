@@ -37,7 +37,7 @@ class Artist extends Element
         $albums = $this->tidal->api_request('artists', $this->id, 'albums');
         foreach ($albums['items'] as $key => $album)
         {
-            $album_objs[$key] = new Album($album, null, $this->tidal);
+            $album_objs[$key] = new Album($album, $this->tidal);
             $album_objs[$key]->get_tracks();
         }
         return $album_objs;

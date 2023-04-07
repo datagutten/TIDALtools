@@ -83,20 +83,20 @@ class Track extends Element
 
     /**
      * Get album metadata
-     * @return Album
-     * @throws TidalError
+     * @return Album Album object
+     * @throws TidalError API request failed
      */
     public function getAlbum(): Album
     {
-        $album = $this->tidal->album($this->album_id);
+        $album = $this->tidal->api_request('albums', $this->album_id);
         $this->album = new Album($album, null, $this->tidal);
         return $this->album;
     }
 
     /**
      * Prepare metadata from TIDAL to be passed to AudioMetadata methods
-     * @return array
-     * @throws TidalError
+     * @return array Metadata array
+     * @throws TidalError API request failed
      */
     public function metadata(): array
     {

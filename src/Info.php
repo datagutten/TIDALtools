@@ -201,6 +201,7 @@ class Info
      * @param bool $tracks Get album tracks
      * @return array Information about the album
      * @throws TidalError API request failed
+     * @deprecated Use Tidal::album
      */
 	function album(string $album,$tracks=false)
 	{

@@ -93,7 +93,7 @@ class SearchResult extends SimpleArrayAccess
         foreach ($result['items'] as $item)
         {
             if ($this->searchType == 'albums')
-                $this->albums[] = new Album($item, null, $this->search);
+                $this->albums[] = new Album($item, $this->search);
             elseif ($this->searchType == 'tracks')
                 $this->tracks[] = new Track($item, $this->search);
             else
