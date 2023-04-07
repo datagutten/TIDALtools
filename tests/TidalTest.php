@@ -2,6 +2,7 @@
 
 use datagutten\Tidal\elements;
 use datagutten\Tidal\Tidal;
+use datagutten\Tidal\TidalError;
 use PHPUnit\Framework\TestCase;
 
 class TidalTest extends TestCase
@@ -42,5 +43,16 @@ class TidalTest extends TestCase
         $albums = $artist->albums();
         $this->assertInstanceOf(elements\Album::class, $albums[0]);
         $this->assertInstanceOf(elements\Track::class, $albums[0]->tracks[0]);
+    }
+
+    /**
+     * Test fetching of ISRC for album
+     * @throws TidalError
+     */
+    public function testAlbumISRC()
+    {
+        $isrc = $this->tidal->album('https://tidal.com/browse/album/80219164')->isrc_list();
+        $this->assertIsArray($isrc);
+        $this->assertEquals('NO4DI1706010', $isrc['1-1']);
     }
 }

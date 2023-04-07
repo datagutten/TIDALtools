@@ -120,4 +120,23 @@ class Album extends Element
     {
         return self::artistString($this->artists);
     }
+
+    /**
+     * Get ISRCs for the tracks on the album
+     * @return array
+     * @throws TidalError API request failed
+     */
+    public function isrc_list(): array
+    {
+        $isrc = [];
+        if (empty($this->tracks))
+            $this->get_tracks();
+
+        foreach ($this->tracks as $track)
+        {
+            $track_number = sprintf('%d-%d', $track->volumeNumber, $track->trackNumber);
+            $isrc[$track_number] = $track->isrc;
+        }
+        return $isrc;
+    }
 }

@@ -275,6 +275,7 @@ class Info
      * @param string $album Album ID or URL
      * @return array
      * @throws TidalError API request failed
+     * @deprecated Use isrc_list method from Album class
      */
 	function album_isrc(string $album)
 	{
