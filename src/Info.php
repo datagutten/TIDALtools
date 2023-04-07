@@ -60,7 +60,7 @@ class Info
         }
 
 		if($response->status_code>=400 && $response->status_code<=499)
-			$this->parse_response($response->body);
+			self::parse_response($response->body);
 		elseif($response->success===false)
 			throw new TidalError('HTTP request unsuccessful: '.$response->body);
 
@@ -192,7 +192,7 @@ class Info
             'Connection' => 'keep-alive');
 
 		$url=sprintf('https://api.tidal.com/v1/%s/%s/%s?countryCode=%s%s',$topic,$id,$field,$this->countryCode,$url_extra);
-		return $this->parse_response($this->query($url, null, $headers));
+		return self::parse_response($this->query($url, null, $headers));
 	}
 
     /**
@@ -252,7 +252,7 @@ class Info
         $id = self::get_id($artist);
         $url = sprintf('https://api.tidal.com/v1/pages/artist?countryCode=%s&locale=en_NO&deviceType=PHONE&artistId=%s',
             $this->countryCode, $id);
-        return $this->parse_response($this->query($url));
+        return self::parse_response($this->query($url));
     }
 
     /**

@@ -85,7 +85,7 @@ class InfoTest extends TestCase
     {
         $this->expectException(Tidal\TidalError::class);
         $this->expectExceptionMessage('test_message');
-        $this->tidal->parse_response('{"userMessage": "test_message"}');
+        Tidal\Info::parse_response('{"userMessage": "test_message"}');
     }
 
     /**
