@@ -112,6 +112,7 @@ class Track extends Element
         $track['volumenumber'] = $this->volumeNumber;
         $track['totaltracks'] = $this->album->numberOfTracks;
         $track['totalvolumes'] = $this->album->numberOfVolumes;
+        $this['isrc'] = $this->isrc;
         $track['cover'] = $this->album->cover;
         /*if ($album['artist']['id'] == 2935) //If album artist is "Various Artists" the album is a compilation
             $track['compilation'] = true;*/
