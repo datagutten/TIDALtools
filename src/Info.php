@@ -5,6 +5,7 @@ namespace datagutten\Tidal;
 use datagutten\Tidal\elements\Album;
 use InvalidArgumentException;
 use WpOrg\Requests;
+use WpOrg\Requests\Exception\Http;
 
 
 class Info
@@ -59,10 +60,18 @@ class Info
             throw new TidalError('HTTP request error: ' . $e->getMessage(), 0, $e);
         }
 
-		if($response->status_code>=400 && $response->status_code<=499)
-			self::parse_response($response->body);
-		elseif($response->success===false)
-			throw new TidalError('HTTP request unsuccessful: '.$response->body);
+        if ($response->success === false)
+        {
+            $error_class = Http::get_class($response->status_code);
+            $error_class = new $error_class;
+
+            if (empty($response->body))
+                throw new TidalError(sprintf('HTTP error %d: %s', $response->status_code, $error_class->getReason()), $response->status_code);
+            elseif ($response->status_code >= 400 && $response->status_code <= 499)
+                self::parse_response($response->body);
+            else
+                throw new TidalError('HTTP request unsuccessful: ' . $response->body);
+        }
 
 		return $response->body;
 	}

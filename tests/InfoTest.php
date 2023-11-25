@@ -81,6 +81,16 @@ class InfoTest extends TestCase
     /**
      * @throws Tidal\TidalError
      */
+    public function testQueryError429()
+    {
+        $this->expectException(Tidal\TidalError::class);
+        $this->expectExceptionMessage('HTTP error 429: Too Many Requests');
+        $this->tidal->query('https://httpbin.org/status/429');
+    }
+
+    /**
+     * @throws Tidal\TidalError
+     */
     public function testExceptionMessage()
     {
         $this->expectException(Tidal\TidalError::class);
