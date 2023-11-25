@@ -17,6 +17,9 @@ class Playlist extends Element
     public string $lastItemAddedAt;
     public int $duration;
     public int $numberOfTracks;
+    /**
+     * @var Track[]
+     */
     public array $tracks;
     public Tidal $tidal_api;
 
@@ -34,5 +37,17 @@ class Playlist extends Element
         {
             $this->tracks[] = new static::$track_class($item, $this->tidal);
         }
+    }
+
+    /**
+     * Get the playlist tracks
+     * @return self New playlist instance with tracks
+     * @throws TidalError API error
+     */
+    public function get_tracks(): self
+    {
+        $playlist = $this->tidal_api->playlist($this->uuid);
+        $this->tracks = $playlist->tracks;
+        return $playlist;
     }
 }
