@@ -115,6 +115,11 @@ class Track extends Element
         $track['totalvolumes'] = $this->album->numberOfVolumes;
         $track['isrc'] = $this->isrc;
         $track['cover'] = $this->album->cover;
+        $track['artists'] = [];
+        foreach ($this->artists as $artist)
+        {
+            $track['artists'][] = $artist->name;
+        }
         /*if ($album['artist']['id'] == 2935) //If album artist is "Various Artists" the album is a compilation
             $track['compilation'] = true;*/
         if (preg_match('/([0-9]{4})/', $this->copyright, $year))
