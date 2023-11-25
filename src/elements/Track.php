@@ -12,6 +12,7 @@ use datagutten\tools\files\files;
 class Track extends Element
 {
     protected array $fields = ['id', 'title', 'duration', 'trackNumber', 'volumeNumber', 'url', 'isrc', 'copyright', 'audioQuality'];
+    protected static array $optional_fields = ['copyright', 'image'];
 
     /**
      * @var string Track title

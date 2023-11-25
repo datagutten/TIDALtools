@@ -22,6 +22,7 @@ class Playlist extends Element
         'uuid', 'type', 'title', 'duration', 'numberOfTracks',
         'created', 'lastUpdated', 'lastItemAddedAt', 'url', 'image',
     ];
+    protected static array $optional_fields = ['lastItemAddedAt', 'image'];
 
     public function __construct(array $data, Info $tidal = null)
     {
