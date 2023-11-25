@@ -51,7 +51,7 @@ class TidalTest extends TestCase
      */
     public function testAlbumISRC()
     {
-        $isrc = $this->tidal->album('https://tidal.com/browse/album/80219164')->isrc_list();
+        $isrc = $this->tidal->album('https://tidal.com/browse/album/266677242')->isrc_list();
         $this->assertIsArray($isrc);
         $this->assertEquals('NO4DI1706010', $isrc['1-1']);
     }

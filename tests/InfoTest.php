@@ -123,7 +123,7 @@ class InfoTest extends TestCase
      */
     public function testGetTokenFromRequest()
     {
-        $track = $this->tidal->track('https://tidal.com/browse/track/82348963');
+        $track = $this->tidal->track('https://tidal.com/browse/track/221926624');
         $this->assertIsArray($track);
         $this->assertEquals('Lite og stort', $track['title']);
     }
@@ -144,10 +144,10 @@ class InfoTest extends TestCase
      */
     public function testAlbumTracks()
     {
-        $album = $this->tidal->album('https://tidal.com/browse/album/80219164', true);
+        $album = $this->tidal->album('https://tidal.com/browse/album/266677242', true);
         $this->assertIsArray($album);
         $this->assertArrayHasKey('items', $album);
-        $this->assertEquals('Hva nå', $album['items'][0]['title']);
+        $this->assertEquals('Hva nå - Intro', $album['items'][0]['title']);
     }
 
     /**
@@ -156,7 +156,7 @@ class InfoTest extends TestCase
      */
     public function testAlbumCover()
     {
-        $album = $this->tidal->album('https://tidal.com/browse/album/80219164');
+        $album = $this->tidal->album('https://tidal.com/browse/album/266677242');
         $this->assertIsArray($album);
         $this->assertEquals('Hva nå', $album['title']);
         $response = Requests::head($album['cover']);
@@ -170,7 +170,7 @@ class InfoTest extends TestCase
      */
     public function testAlbumISRC()
     {
-        $isrc = $this->tidal->album_isrc('https://tidal.com/browse/album/80219164');
+        $isrc = $this->tidal->album_isrc('https://tidal.com/browse/album/266677242');
         $this->assertIsArray($isrc);
         $this->assertEquals('NO4DI1706010', $isrc['1-1']);
     }

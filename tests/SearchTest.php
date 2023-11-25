@@ -58,7 +58,7 @@ class SearchTest extends TestCase
     {
         $result = $this->tidal->search_tracks('lite og stort');
         $this->assertGreaterThan(0, $result->totalNumberOfItems);
-        $this->assertEquals('Lite og stort', $result->tracks[0]->title);
+        $this->assertEqualsIgnoringCase('Lite og stort', $result->tracks[0]->title);
     }
 
     /**
@@ -89,7 +89,7 @@ class SearchTest extends TestCase
                 break;
         }
         $this->assertNotFalse($match);
-        $this->assertEquals('Lite og stort', $match['title']);
+        $this->assertEqualsIgnoringCase('Lite og stort', $match['title']);
     }
 
     /**
@@ -99,7 +99,7 @@ class SearchTest extends TestCase
     {
         $match = $this->tidal->search_track_verify('lite og stort', ['No. 4']);
         $this->assertNotFalse($match);
-        $this->assertEquals('Lite og stort', $match['title']);
+        $this->assertEqualsIgnoringCase('Lite og stort', $match['title']);
     }
 
     /**

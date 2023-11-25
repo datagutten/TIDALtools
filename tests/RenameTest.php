@@ -41,7 +41,7 @@ class RenameTest extends TestCase
     {
         $tidal= new Tidal\Rename($this->config);
         $tidal->token = Tidal\Info::get_token();
-        list($file) = $tidal->track_file('https://tidal.com/browse/track/80219173', 'flac');
+        list($file) = $tidal->track_file('https://tidal.com/browse/track/266677251', 'flac');
         $pathinfo = pathinfo($file);
 
         $this->assertEquals('09 Det finnes bare vi.flac', $pathinfo['basename']);
@@ -54,7 +54,7 @@ class RenameTest extends TestCase
     public function testFileName2()
     {
         $tidal2 = new Tidal\Tidal();
-        $track = $tidal2->track('https://tidal.com/browse/track/80219173');
+        $track = $tidal2->track('https://tidal.com/browse/track/266677251');
         $track->getAlbum();
         $tidal = new Tidal\Rename($this->config);
         $tidal->token = Tidal\Info::get_token();
