@@ -31,4 +31,12 @@ class ElementStubTest extends TestCase
         $this->assertInstanceOf(elements\Album::class, $album);
         $this->assertEquals('Hva nå', $album->title);
     }
+
+    public function testGetPlaylist()
+    {
+        $stub = new stubs\PlaylistStub('f1aae2f6-b820-4028-b56c-6e8c4e9e9551', $this->tidal);
+        $playlist = $stub->get();
+        $this->assertInstanceOf(elements\Playlist::class, $playlist);
+        $this->assertEquals('Hans Rotmo', $playlist->title);
+    }
 }
