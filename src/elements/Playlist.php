@@ -2,7 +2,8 @@
 
 namespace datagutten\Tidal\elements;
 
-use datagutten\Tidal\Info;
+use datagutten\Tidal\Tidal;
+use datagutten\Tidal\TidalError;
 
 class Playlist extends Element
 {
@@ -17,6 +18,7 @@ class Playlist extends Element
     public int $duration;
     public int $numberOfTracks;
     public array $tracks;
+    public Tidal $tidal_api;
 
     protected array $fields = [
         'uuid', 'type', 'title', 'duration', 'numberOfTracks',
@@ -24,10 +26,11 @@ class Playlist extends Element
     ];
     protected static array $optional_fields = ['lastItemAddedAt', 'image'];
 
-    public function __construct(array $data, Info $tidal = null)
+    public function __construct(array $data, Tidal $tidal = null)
     {
-        parent::__construct($data, $tidal);
-        foreach ($data['items'] as $item)
+        parent::__construct($data, $tidal->info);
+        $this->tidal_api = $tidal;
+        foreach ($data['items'] ?? [] as $item)
         {
             $this->tracks[] = new static::$track_class($item, $this->tidal);
         }
