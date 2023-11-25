@@ -153,7 +153,7 @@ class Info
     {
         if (empty($id_or_url))
             throw new InvalidArgumentException('Empty argument');
-        if (is_numeric($id_or_url))
+        if (is_numeric($id_or_url) || preg_match('#^[a-f0-9-]{36}$#', $id_or_url))
             return $id_or_url;
         elseif (preg_match('#playlist/([a-f0-9-]+)#', $id_or_url, $id))
             return $id[1];
