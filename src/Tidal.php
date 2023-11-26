@@ -4,7 +4,7 @@ namespace datagutten\Tidal;
 
 use datagutten\Tidal\elements;
 
-class Tidal
+class Tidal extends TidalAPI
 {
     //Override in child class to use other elements classes
     protected static string $track_class = elements\Track::class;
@@ -25,6 +25,7 @@ class Tidal
     {
         $this->info = new Info();
         $this->info->token = Info::get_token();
+        parent::__construct();
     }
 
     /**
@@ -84,6 +85,6 @@ class Tidal
         $limit = ceil($playlist_info['numberOfTracks'] / 100) * 100;
         $playlist_tracks = $this->info->api_request('playlists', $id, 'tracks', "&limit=$limit&orderDirection=ASC");
         $playlist = array_merge($playlist_info, $playlist_tracks);
-        return new static::$playlist_class($playlist, $this->info);
+        return new static::$playlist_class($playlist, $this->info, api: $this);
     }
 }

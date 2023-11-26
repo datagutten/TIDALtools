@@ -5,14 +5,13 @@ namespace datagutten\Tidal\elements;
 
 
 use datagutten\Tidal\Info;
+use datagutten\Tidal\Tidal;
 use RuntimeException;
 
 abstract class Element extends SimpleArrayAccess
 {
-    /**
-     * @var Info
-     */
-    public $tidal;
+    public Info $tidal;
+    public Tidal $tidal_api;
     protected array $fields = [];
     protected static array $optional_fields = [];
     /**
@@ -23,13 +22,16 @@ abstract class Element extends SimpleArrayAccess
     protected static string $album_class = Album::class;
     protected static string $artist_class = Artist::class;
 
-    public function __construct(array $data, Info $tidal = null)
+    public function __construct(array $data, Info $tidal = null, Tidal $api = null)
     {
         $this->data = $data;
         if (!empty($tidal))
             $this->tidal = $tidal;
         else
             $this->tidal = new Info();
+
+        if (!empty($api))
+            $this->tidal_api = $api;
 
         foreach ($this->fields as $field)
         {
