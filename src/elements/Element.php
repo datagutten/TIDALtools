@@ -25,13 +25,16 @@ abstract class Element extends SimpleArrayAccess
     public function __construct(array $data, Info $tidal = null, Tidal $api = null)
     {
         $this->data = $data;
-        if (!empty($tidal))
-            $this->tidal = $tidal;
-        else
-            $this->tidal = new Info();
 
         if (!empty($api))
             $this->tidal_api = $api;
+
+        if (!empty($tidal))
+            $this->tidal = $tidal;
+        elseif (!empty($this->tidal_api))
+            $this->tidal = $api->info;
+        else
+            $this->tidal = new Info();
 
         foreach ($this->fields as $field)
         {

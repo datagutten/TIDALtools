@@ -86,7 +86,7 @@ class Tidal extends TidalAPI
         $limit = ceil($playlist_info['numberOfTracks'] / 100) * 100;
         $playlist_tracks = $this->info->api_request('playlists', $id, 'tracks', "&limit=$limit&orderDirection=ASC");
         $playlist = array_merge($playlist_info, $playlist_tracks);
-        return new static::$playlist_class($playlist, $this->info, api: $this);
+        return new static::$playlist_class($playlist, $this);
     }
 
     /**
@@ -99,6 +99,6 @@ class Tidal extends TidalAPI
     {
         $id = Info::get_id($id_or_url);
         $data = $this->api_request(sprintf('profiles/%d', $id), prefix: 'api');
-        return new static::$user_class($data, $this->info, api: $this);
+        return new static::$user_class($data, $this->info, $this);
     }
 }

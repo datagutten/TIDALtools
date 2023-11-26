@@ -21,7 +21,6 @@ class Playlist extends Element
      * @var Track[]
      */
     public array $tracks;
-    public Tidal $tidal_api;
 
     protected array $fields = [
         'uuid', 'type', 'title', 'duration', 'numberOfTracks',
@@ -31,8 +30,7 @@ class Playlist extends Element
 
     public function __construct(array $data, Tidal $tidal = null)
     {
-        parent::__construct($data, $tidal->info);
-        $this->tidal_api = $tidal;
+        parent::__construct($data, api: $tidal);
         foreach ($data['items'] ?? [] as $item)
         {
             $this->tracks[] = new static::$track_class($item, $this->tidal);
