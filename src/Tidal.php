@@ -11,6 +11,7 @@ class Tidal extends TidalAPI
     protected static string $album_class = elements\Album::class;
     protected static string $artist_class = elements\Artist::class;
     protected static string $playlist_class = elements\Playlist::class;
+    protected static string $user_class = elements\User::class;
     protected static string $element_class = elements\Element::class;
 
     /**
@@ -86,5 +87,18 @@ class Tidal extends TidalAPI
         $playlist_tracks = $this->info->api_request('playlists', $id, 'tracks', "&limit=$limit&orderDirection=ASC");
         $playlist = array_merge($playlist_info, $playlist_tracks);
         return new static::$playlist_class($playlist, $this->info, api: $this);
+    }
+
+    /**
+     * Get a user
+     * @param string $id_or_url User id
+     * @return elements\User object
+     * @throws TidalError
+     */
+    public function user(string $id_or_url): elements\User
+    {
+        $id = Info::get_id($id_or_url);
+        $data = $this->api_request(sprintf('profiles/%d', $id), prefix: 'api');
+        return new static::$user_class($data, $this->info, api: $this);
     }
 }
