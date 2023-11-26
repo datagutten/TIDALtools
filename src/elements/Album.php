@@ -13,6 +13,9 @@ class Album extends Element
         'id', 'title', 'duration', 'numberOfTracks', 'numberOfVolumes',
         'releaseDate', 'copyright', 'type', 'url', 'cover', 'upc'
     ];
+    protected static array $optional_fields = ['duration', 'numberOfTracks', 'numberOfVolumes',
+        'releaseDate', 'copyright', 'type', 'url', 'cover', 'upc'];
+
     /**
      * @var int Album ID
      */
@@ -74,7 +77,7 @@ class Album extends Element
     public function __construct(array $album, Info $tidal = null)
     {
         parent::__construct($album, $tidal);
-        foreach ($album['artists'] as $artist)
+        foreach ($album['artists'] ?? [] as $artist)
         {
             $this->artists[] = new static::$artist_class($artist, $tidal);
         }

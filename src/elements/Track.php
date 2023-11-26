@@ -71,6 +71,7 @@ class Track extends Element
         {
             $this->artists[] = new static::$artist_class($artist, $tidal);
         }
+        $this->album = new static::$album_class($data['album']);
     }
 
     /**
