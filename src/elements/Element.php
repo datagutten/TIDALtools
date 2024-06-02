@@ -6,9 +6,10 @@ namespace datagutten\Tidal\elements;
 
 use datagutten\Tidal\Info;
 use datagutten\Tidal\Tidal;
+use JsonSerializable;
 use RuntimeException;
 
-abstract class Element extends SimpleArrayAccess
+abstract class Element extends SimpleArrayAccess implements JsonSerializable
 {
     public Info $tidal;
     public Tidal $tidal_api;
@@ -78,5 +79,17 @@ abstract class Element extends SimpleArrayAccess
             }
         }
         return $artist_string;
+    }
+
+    public function jsonSerialize(): array
+    {
+        $data = [];
+        foreach ($this->fields as $field)
+        {
+            if (!empty($this->$field))
+                $data[$field] = $this->$field;
+
+        }
+        return $data;
     }
 }
