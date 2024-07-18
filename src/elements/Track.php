@@ -13,6 +13,7 @@ class Track extends Element
 {
     protected array $fields = ['id', 'title', 'duration', 'trackNumber', 'volumeNumber', 'url', 'isrc', 'copyright', 'audioQuality'];
     protected static array $optional_fields = ['copyright', 'image'];
+    protected static array $json_extra_fields = ['artist']; //Artist string
 
     /**
      * @var string Track title
