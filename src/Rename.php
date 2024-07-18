@@ -121,6 +121,8 @@ class Rename extends Info
      */
     public function renameTrack(string $file, elements\Track $track): string
     {
+        if (empty($track->album->artists))
+            $track->getAlbum();
         $metadata = $track->metadata();
         return AudioMetadata::metadata($file, $this->output_path, $metadata);
     }
