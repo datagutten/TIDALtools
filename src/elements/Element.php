@@ -15,6 +15,8 @@ abstract class Element extends SimpleArrayAccess implements JsonSerializable
     public Tidal $tidal_api;
     protected array $fields = [];
     protected static array $optional_fields = [];
+    protected static array $json_extra_fields = [];
+
     /**
      * @var array Original array from TIDAL
      */
@@ -84,9 +86,13 @@ abstract class Element extends SimpleArrayAccess implements JsonSerializable
     public function jsonSerialize(): array
     {
         $data = [];
-        foreach ($this->fields as $field)
+        foreach (array_merge($this->fields, static::$json_extra_fields) as $field)
         {
-            if (!empty($this->$field))
+            if (is_callable([$this, $field]))
+            {
+                $data[$field] = $this->$field();
+            }
+            elseif (!empty($this->$field))
                 $data[$field] = $this->$field;
 
         }
